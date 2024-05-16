@@ -18,9 +18,9 @@ import {
 import UIThemeShadowButton from 'components/UIComponents/UIStyledShadowButton';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import GuestSignup from 'views/auth/guestSignup';
 import GuestForgetPasswordLink from 'views/auth/guestForgetPasswordLink';
 import GuestLogin from 'views/auth/guestLogin';
+import ModelSignup from 'views/modelViews/modelSignup';
 
 const HomeModelTopBanner = () => {
   const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
@@ -133,7 +133,7 @@ const HomeModelTopBanner = () => {
         maxWidth="md"
         fullWidth
       >
-        <GuestSignup onClose={handleSignupClose} onLoginOpen={handleLoginOpen} />
+        <ModelSignup onClose={handleSignupClose} onLoginOpen={handleLoginOpen} />
       </NewDialogBox>
       <NewDialogBox
         PaperProps={{
