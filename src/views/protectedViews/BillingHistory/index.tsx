@@ -1,9 +1,21 @@
+'use client';
 import { Divider, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import React from 'react';
+import React, { useState } from 'react';
 import { BillingHistoryMainContainer, FirstTextContainer, TextMainContainer } from './BillingHistory.styled';
+import BilingDetails from '../bilingDetails';
 
 const BillingHistory = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleBilingDetailsOpen = () => {
+    setOpen(true);
+  };
+
+  const handleBilingDetailsClose = () => {
+    setOpen(false);
+  };
+
   return (
     <BillingHistoryMainContainer>
       <TextMainContainer>
@@ -39,11 +51,13 @@ const BillingHistory = () => {
               05:28 PM, 12 Apr 2024
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={handleBilingDetailsOpen}>
             <Typography variant="h6" color="text.secondary">
               View details
             </Typography>
           </Box>
+
+          <BilingDetails isOpen={open} handleClose={handleBilingDetailsClose} />
         </FirstTextContainer>
         <Divider
           orientation="horizontal"
