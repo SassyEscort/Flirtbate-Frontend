@@ -1,7 +1,8 @@
 import HomeContainer from 'views/guestViews/homePage';
+import BillingHistory from 'views/protectedViews/BillingHistory';
 
 const Home = () => {
-  return <HomeContainer />;
+  return <BillingHistory />;
 };
 
 export default Home;
