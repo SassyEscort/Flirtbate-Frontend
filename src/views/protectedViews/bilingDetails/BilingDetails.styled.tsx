@@ -1,7 +1,5 @@
 import { Box, DialogTitle, styled } from '@mui/material';
-import { height, width } from '@mui/system';
 import UIThemeShadowButton from 'components/UIComponents/UIStyledShadowButton';
-import Image from 'next/image';
 
 export const DialogTitleContainer = styled(DialogTitle)(({ theme }) => ({
   display: 'flex',
