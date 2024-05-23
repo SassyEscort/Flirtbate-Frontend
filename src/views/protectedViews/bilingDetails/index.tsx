@@ -11,12 +11,13 @@ import UINewTypography from 'components/UIComponents/UINewTypography';
 import theme from 'themes/theme';
 import WorkerCard from 'views/guestViews/commonComponents/WorkerCard/WorkerCard';
 import { SecondSubContainerImgWorkerCard } from 'views/guestViews/commonComponents/WorkerCard/WorkerCard.styled';
-import UIThemeShadowButton from 'components/UIComponents/UIStyledShadowButton';
 import Image from 'next/image';
-import { DialogTitleContainer, FirstBox, SecondBox, ThreeBox } from './BilingDetails.styled';
+import { ButtonMainConatiner, DialogTitleContainer, FirstBox, MainContainer, SecondBox, ThreeBox } from './BilingDetails.styled';
+import UIThemeShadowButton from 'components/UIComponents/UIStyledShadowButton';
 
 const BilingDetails = ({ isOpen, handleClose }: { isOpen: boolean; handleClose: () => void }) => {
   const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
+  const isSMDown = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Dialog
@@ -65,7 +66,7 @@ const BilingDetails = ({ isOpen, handleClose }: { isOpen: boolean; handleClose: 
         />
       </Box>
       <DialogContent>
-        <Box sx={{ display: 'flex', gap: 3 }}>
+        <MainContainer>
           <WorkerCard />
           <FirstBox>
             <SecondBox>
@@ -93,9 +94,10 @@ const BilingDetails = ({ isOpen, handleClose }: { isOpen: boolean; handleClose: 
                 </UINewTypography>
               </Box>
             </SecondBox>
-            <Box display="flex" gap={2} flexDirection="column">
+            <ButtonMainConatiner>
               <UIThemeShadowButton
                 sx={{
+                  height: 'auto',
                   maxWidth: '100%',
                   '&.MuiButtonBase-root': { height: { xs: '40px', sm: '44px' } }
                 }}
@@ -105,16 +107,16 @@ const BilingDetails = ({ isOpen, handleClose }: { isOpen: boolean; handleClose: 
                 <Box display="flex" alignItems="center" gap="10px">
                   <Image src="/images/workercards/video-call.svg" alt="video-call" height={24} width={24} />
                   <UINewTypography color="common.white" variant="bodySemiBold" sx={{ whiteSpace: 'nowrap' }}>
-                    Start Video Call again
+                    {isSMDown ? 'Start Video Call' : 'Start Video Call again'}
                   </UINewTypography>
                 </Box>
               </UIThemeShadowButton>
               <UINewTypography variant="bodySemiBold" color="#FFFFFF" sx={{ textAlign: 'center' }}>
                 Explore more models
               </UINewTypography>
-            </Box>
+            </ButtonMainConatiner>
           </FirstBox>
-        </Box>
+        </MainContainer>
       </DialogContent>
     </Dialog>
   );
