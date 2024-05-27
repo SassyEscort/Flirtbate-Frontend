@@ -1,8 +1,9 @@
 import React from 'react';
 import HomeContainerModel from 'views/modelViews/modelPage';
+import PayoutInvoices from 'views/protectedDashboardViews/payoutInvoices';
 
 const Home = () => {
-  return <HomeContainerModel />;
+  return <PayoutInvoices />;
 };
 
 export default Home;
