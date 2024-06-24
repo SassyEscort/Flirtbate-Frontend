@@ -1,7 +1,6 @@
 import { Box, DialogContent, FormHelperText, IconButton } from '@mui/material';
 import UINewTypography from 'components/UIComponents/UINewTypography';
 import { UIStyledInputText } from 'components/UIComponents/UIStyledInputText';
-import UIThemeButton from 'components/UIComponents/UIStyledLoadingButton';
 import { FormattedMessage } from 'react-intl';
 import {
   SecondBox,
@@ -37,6 +36,7 @@ import AddBankDetailsModel from '../addBankDetails/addBankDetailsModel';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import PayoutRequestSubmit from '../payoutRequestSubmit';
+import StyleButtonV2 from 'components/UIComponents/StyleLoadingButton';
 
 export type RequestPayoutParams = {
   amount: number | null;
@@ -64,6 +64,7 @@ const PayoutWithdrawContainer = ({
   const [selectBank, setSelectBank] = useState<string | null>(null);
   const [selectedBankId, setSelectedBankId] = useState<number | null>(null);
   const [openSubmitModel, setOpenSubmitModel] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [editValue, setEditValue] = useState<BankDetailsEdit>();
   const [cancelRemove, setCancelRemove] = useState(false);
@@ -133,6 +134,7 @@ const PayoutWithdrawContainer = ({
           validationSchema={validationSchema}
           onSubmit={async (values) => {
             try {
+              setLoading(true);
               const requestPaoutObject: RequestPayoutParams = {
                 amount: values.amount,
                 bank_account_id: selectedBankId,
@@ -149,6 +151,8 @@ const PayoutWithdrawContainer = ({
               }
             } catch (error) {
               toast.error(ErrorMessage);
+            } finally {
+              setLoading(false);
             }
           }}
         >
@@ -304,11 +308,11 @@ const PayoutWithdrawContainer = ({
                             />
                           </PayoutDetailSixBox>
 
-                          <UIThemeButton variant="contained" sx={{ width: '100%' }} type="submit">
+                          <StyleButtonV2 variant="contained" sx={{ width: '100%' }} type="submit" loading={loading}>
                             <UINewTypography variant="buttonLargeBold" color="primary.200">
                               <FormattedMessage id="Confirm" />
                             </UINewTypography>
-                          </UIThemeButton>
+                          </StyleButtonV2>
                         </ChooseYourBankFristBox>
                       </SecondBox>
                     </DialogContent>
