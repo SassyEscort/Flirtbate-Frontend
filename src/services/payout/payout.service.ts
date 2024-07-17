@@ -81,7 +81,8 @@ export class PayoutService {
         query += `&state=${params.status}`;
       }
       const res = await axios.get(
-        process.env.NEXT_PUBLIC_API_BASE_URL + `/v1/model/payout?limit=${params.limit}&offset=${params.offset}${query}`,
+        process.env.NEXT_PUBLIC_API_BASE_URL +
+          `/v1/model/payout?limit=${params.limit}&offset=${params.offset}&start_date=${params.startDate}&end_date=${params.endDate}${query}`,
         {
           headers: {
             'Content-Type': 'application/json',

@@ -126,4 +126,6 @@ export type ModelPastPayoutDetailParams = {
   offset: number;
   filter_text?: string;
   status?: string;
+  startDate?: Date | null;
+  endDate?: Date | null;
 };

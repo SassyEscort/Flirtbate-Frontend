@@ -1,4 +1,5 @@
 'use client';
+import { Box } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
@@ -61,6 +62,20 @@ export const StyledEarningSelectInputLabel = styled(InputLabel)(({ theme }) => (
   top: '-8px',
   color: theme.palette.secondary[200],
   gap: theme.spacing(1),
+  alignItems: 'center',
+  '&.MuiInputLabel-shrink': { top: 0 }
+}));
+
+export const InvoiceBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  top: '-8px',
+  color: theme.palette.secondary[200],
+  backgroundColor: '#232027',
+  padding: theme.spacing(0, 1),
+  gap: theme.spacing(1),
+  borderRadius: theme.spacing(1),
+  width: '100%',
+  height: '40px',
   alignItems: 'center',
   '&.MuiInputLabel-shrink': { top: 0 }
 }));

@@ -2,7 +2,6 @@
 
 import UINewTypography from 'components/UIComponents/UINewTypography';
 import { FormattedMessage } from 'react-intl';
-import InvoiceDate from './searchFilters/invoiceDate';
 import Status from './searchFilters/status';
 import {
   DividerContainer,
@@ -36,6 +35,7 @@ import { PaginationBox } from './billingTable/BillingTable.styled';
 import { UITheme2Pagination } from 'components/UIComponents/PaginationV2/Pagination.styled';
 import PaginationInWords from 'components/UIComponents/PaginationINWords';
 import { debounce } from 'lodash';
+import InvoiceDate from './InvoiceDate';
 
 export type PaginationType = {
   page: number;
@@ -43,6 +43,8 @@ export type PaginationType = {
   pageSize: number;
   filter_text: string;
   status: string;
+  startDate: Date | null;
+  endDate: Date | null;
 };
 
 const PayoutsAndInvoices = () => {
@@ -50,12 +52,14 @@ const PayoutsAndInvoices = () => {
   const [token, setToken] = useState<TokenIdType>({ id: 0, token: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [total_rows, setTotalRows] = useState(0);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<PaginationType>({
     page: 1,
     pageSize: 20,
     offset: 0,
     filter_text: '',
-    status: ''
+    status: '',
+    startDate: null,
+    endDate: null
   });
 
   useEffect(() => {
@@ -77,7 +81,9 @@ const PayoutsAndInvoices = () => {
           limit: filters.pageSize,
           offset: filters.offset,
           filter_text: filters.filter_text,
-          status: filters.status
+          status: filters.status,
+          startDate: filters.startDate,
+          endDate: filters.endDate
         };
         if (token.token) {
           setIsLoading(true);
@@ -136,7 +142,11 @@ const PayoutsAndInvoices = () => {
   };
 
   const handelReset = () => {
-    handleChangeFilter({ ...filters, filter_text: '', status: '', page: 1 });
+    handleChangeFilter({ ...filters, filter_text: '', status: '', startDate: null, endDate: null, page: 1 });
+  };
+
+  const handleDateChange = (startDate: Date | null, endDate: Date | null) => {
+    handleChangeFilter({ ...filters, startDate, endDate, page: 1 });
   };
 
   return (
@@ -154,7 +164,7 @@ const PayoutsAndInvoices = () => {
             </StackBox>
             <FilterMainBox>
               <FilterSecondBox>
-                <InvoiceDate />
+                <InvoiceDate handleDateChange={handleDateChange} />
                 <Status onChange={handleChangeStatus} value={filters.status} />
               </FilterSecondBox>
 
