@@ -16,6 +16,8 @@ export default function RootLayout({
   children: JSX.Element;
 }>) {
   const isStaging = process.env.NEXT_PUBLIC_ENV === 'staging';
+  const isProduction = process.env.NEXT_PUBLIC_ENV === 'production';
+
   return (
     <html lang="en">
       <head>
@@ -71,7 +73,7 @@ export default function RootLayout({
             alt="Facebook Pixel"
           />
         </noscript>
-        {!isStaging && (
+        {isProduction && (
           <>
             <script src="https://cdn.amplitude.com/libs/analytics-browser-2.7.4-min.js.gz" async />
             <script src="https://cdn.amplitude.com/libs/plugin-session-replay-browser-1.6.8-min.js.gz" async />

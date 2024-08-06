@@ -16,6 +16,7 @@ import { FormattedMessage } from 'react-intl';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { UploadButBoxContainer } from './RepositionPhoto.styled';
+import ImageDeleteWarning from './imageDeleteWarning';
 
 export type WorkerPhotos = {
   id: number;
@@ -103,6 +104,7 @@ const UploadImage = ({
 }: VerificationStepUploadType) => {
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
+  const [imageWarningOpen, setImageWarningOpen] = useState(false);
 
   const initialValuesPerStep: VerificationFormStep5TypeV2 = {
     file5: null as null | File[],
@@ -150,7 +152,7 @@ const UploadImage = ({
             return this.createError({ message: 'Photo/video should be less than 5MB', path: 'file5' });
           }
           if (combinedLength < 2) {
-            return this.createError({ message: 'Please upload at least 2 photos', path: 'file5' });
+            return this.createError({ message: 'Please upload at least 1 photo', path: 'file5' });
           }
           if (combinedLength > 30) {
             return this.createError({ message: 'Sorry, you can upload 30 pictures only', path: 'file5' });
@@ -160,6 +162,10 @@ const UploadImage = ({
         });
       })
   });
+
+  const handleImageWarningClose = () => {
+    setImageWarningOpen(false);
+  };
 
   const handleSubmit = async (values: VerificationFormStep5TypeV2) => {
     setLoading(true);
@@ -288,11 +294,15 @@ const UploadImage = ({
 
   return (
     <Formik
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       enableReinitialize
       initialValues={initialValuesPerStep}
       onSubmit={(values) => {
-        handleSubmit(values);
+        if (values.file5 === null && !values.file5Existing.length) {
+          setImageWarningOpen(true);
+        } else {
+          handleSubmit(values);
+        }
       }}
     >
       {({ values, errors, touched, setFieldValue, handleSubmit }) => (
@@ -330,6 +340,7 @@ const UploadImage = ({
               )}
             </UploadBox>
           </UploadButBoxContainer>
+          <ImageDeleteWarning open={imageWarningOpen} onClose={handleImageWarningClose} />
         </Box>
       )}
     </Formik>

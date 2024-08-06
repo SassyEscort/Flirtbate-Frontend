@@ -618,5 +618,7 @@
   "PleaseChoose": "Please choose your package",
   "IDFront": "ID front",
   "IDBack": "ID back",
-  "CurrentlyOffline": "is currently offline"
+  "CurrentlyOffline": "is currently offline",
+  "AreYouSureImageDelete": "Are you sure you want to delete all images? If so then you wont be receiving any calls. ",
+  "ImagesDelete":"Images Delete"
 }

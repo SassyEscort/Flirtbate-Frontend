@@ -170,13 +170,11 @@ const PhotoItem = ({
     <>
       <Box>
         <>
-          {!image.isFavorite && (
-            <Box sx={{ position: 'relative' }} id="imageContainer">
-              <DragAndDropMultipleImageCloseButton size="small" onClick={() => handleRemoveImage(image.name)}>
-                <Box component="img" src="/images/verification/close-icon.svg" />
-              </DragAndDropMultipleImageCloseButton>
-            </Box>
-          )}
+          <Box sx={{ position: 'relative' }} id="imageContainer">
+            <DragAndDropMultipleImageCloseButton size="small" onClick={() => handleRemoveImage(image.name)}>
+              <Box component="img" src="/images/verification/close-icon.svg" />
+            </DragAndDropMultipleImageCloseButton>
+          </Box>
           {!videoTypeCondition && (
             <Box sx={{ position: 'relative' }}>
               <DragAndDropMultipleImageEditButton
