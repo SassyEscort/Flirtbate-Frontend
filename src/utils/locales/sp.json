@@ -630,5 +630,11 @@
   "CreditsMin020": "0-20 créditos/min",
   "CreditsMin2030": "20-30 créditos/min",
   "CreditsMin3040": "30-40 créditos/min",
-  "CreditsMin40100": "40-100 créditos/min"
+  "CreditsMin40100": "40-100 créditos/min",
+  "UserWithThisEmailAlreadyExists": "Un usuario con este correo electrónico ya existe",
+  "PasswordIsRequired": "Se requiere una contraseña",
+  "PasswordMust": "La contraseña debe tener al menos 8 caracteres",
+  "PasswordMustContain": "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial",
+  "Invalid": "Correo electrónico inválido"
+
 }

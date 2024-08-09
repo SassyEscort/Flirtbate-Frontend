@@ -23,24 +23,29 @@ import {
   RequestlinkBox,
   RestePasswordBox
 } from './ModelForgetPasswordLink.styled';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { ModelAuthService } from 'services/modelAuth/modelAuth.service';
 import { toast } from 'react-toastify';
 import { ErrorMessage } from 'constants/common.constants';
 import { EMAIL_REGEX } from 'constants/regexConstants';
+import { getErrorMessage } from 'utils/errorUtils';
+import { ErrorBox } from 'views/auth/AuthCommon.styled';
+import InfoIcon from '@mui/icons-material/Info';
 
 export type ForgetPasswordParams = {
   email: string;
 };
 
 const ModelForgetPasswordLink = ({ onClose, onLoginOpen }: { onClose: () => void; onLoginOpen: () => void }) => {
+  const intl = useIntl();
   const isSm = useMediaQuery(theme.breakpoints.down(330));
 
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState('');
 
   const validationSchema = yup.object({
-    email: yup.string().matches(EMAIL_REGEX, 'Enter a valid email').required('Email is required')
+    email: yup.string().matches(EMAIL_REGEX, 'Enteravalidemail').required('Emailisrequired')
   });
 
   return (
@@ -57,7 +62,8 @@ const ModelForgetPasswordLink = ({ onClose, onLoginOpen }: { onClose: () => void
             toast.success('Success');
             setActiveStep(1);
           } else {
-            toast.error(data.error);
+            const errorMessage = getErrorMessage(data?.custom_code);
+            setAlert(intl.formatMessage({ id: errorMessage }));
           }
         } catch (error) {
           toast.error(ErrorMessage);
@@ -78,6 +84,14 @@ const ModelForgetPasswordLink = ({ onClose, onLoginOpen }: { onClose: () => void
               <ForgetPasswordLinkMainContainer>
                 {activeStep === 0 ? (
                   <>
+                    <Box sx={{ color: 'primary.300' }}>
+                      {alert && (
+                        <ErrorBox>
+                          <InfoIcon />
+                          <UINewTypography>{alert}</UINewTypography>
+                        </ErrorBox>
+                      )}
+                    </Box>
                     <Box sx={{ display: 'flex', marginTop: { xs: '100px', sm: 0 } }}>
                       <RestePasswordBox>
                         <UINewTypography variant="MediumSemiBoldText" color="common.white">
@@ -109,7 +123,7 @@ const ModelForgetPasswordLink = ({ onClose, onLoginOpen }: { onClose: () => void
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.email && Boolean(errors.email)}
-                          helperText={touched.email && errors.email}
+                          helperText={touched.email && errors.email ? <FormattedMessage id={errors.email} /> : ''}
                           sx={{
                             border: '2px solid',
                             borderColor: 'secondary.light'

@@ -632,5 +632,10 @@
   "CreditsMin40100":"40-100 credits/min",
   "Payouts": "Payouts",
   "HelpAndInfo": "Help and Info",
-  "App": "App"
+  "App": "App",
+  "UserWithThisEmailAlreadyExists":"User with this email already exists",
+  "PasswordIsRequired":"Password is required",
+  "PasswordMust":"Password must be at least 8 characters",
+  "PasswordMustContain":"Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+  "Invalid":"Invalid email"
 }

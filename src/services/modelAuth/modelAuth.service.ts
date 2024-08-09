@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { ChangePassParams } from 'services/guestAuth/authuser.services';
+import { ChangePassParams, GenericResCustom } from 'services/guestAuth/authuser.services';
 import { GenericResponse, GenericResponseData } from 'types/commonApiTypes';
 import { ForgetPasswordParams } from 'views/modelViews/modelForgetPasswordLink';
 import { LoginParams } from 'views/modelViews/modelSignin';
@@ -51,9 +51,9 @@ export class ModelAuthService {
     }
   };
 
-  static modelForgetPassword = async (params: ForgetPasswordParams): Promise<GenericResponse> => {
+  static modelForgetPassword = async (params: ForgetPasswordParams): Promise<GenericResCustom> => {
     try {
-      const res = await axios.post<ForgetPasswordParams, GenericResponseData>(
+      const res = await axios.post<ForgetPasswordParams, GenericResCustom>(
         process.env.NEXT_PUBLIC_API_BASE_URL + `/v1/model/reset-password-link`,
         params,
         {
@@ -61,9 +61,9 @@ export class ModelAuthService {
         }
       );
 
-      return res.data;
+      return res;
     } catch (err: any) {
-      return { error: err.response.data.message } as GenericResponse;
+      return err.response.data as GenericResCustom;
     }
   };
 

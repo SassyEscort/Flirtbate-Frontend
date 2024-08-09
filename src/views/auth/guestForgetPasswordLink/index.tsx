@@ -15,23 +15,28 @@ import { useState } from 'react';
 import AuthCommon from '../AuthCommon';
 import CheckInbox from './CheckInbox';
 import StyleButtonV2 from 'components/UIComponents/StyleLoadingButton';
-import { FormattedMessage } from 'react-intl';
-import { ModelUITextConatiner, UIButtonText, UITypographyText } from '../AuthCommon.styled';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { ErrorBox, ModelUITextConatiner, UIButtonText, UITypographyText } from '../AuthCommon.styled';
 import { ErrorMessage } from 'constants/common.constants';
 import { EMAIL_REGEX } from 'constants/regexConstants';
+import { getErrorMessage } from 'utils/errorUtils';
+import InfoIcon from '@mui/icons-material/Info';
 
 export type ForgetPasswordParams = {
   email: string;
 };
 const GuestForgetPasswordLink = ({ onClose, onLoginOpen }: { onClose: () => void; onLoginOpen: () => void }) => {
+  const intl = useIntl();
+
   const isSm = useMediaQuery(theme.breakpoints.down(330));
   const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState('');
 
   const validationSchema = yup.object({
-    email: yup.string().matches(EMAIL_REGEX, 'Enter a valid email').required('Email is required')
+    email: yup.string().matches(EMAIL_REGEX, 'Enteravalidemail').required('Emailisrequired')
   });
 
   return (
@@ -48,7 +53,8 @@ const GuestForgetPasswordLink = ({ onClose, onLoginOpen }: { onClose: () => void
             toast.success('Success');
             setActiveStep(1);
           } else {
-            toast.error(data.error);
+            const errorMessage = getErrorMessage(data?.custom_code);
+            setAlert(intl.formatMessage({ id: errorMessage }));
           }
         } catch (error) {
           toast.error(ErrorMessage);
@@ -78,6 +84,14 @@ const GuestForgetPasswordLink = ({ onClose, onLoginOpen }: { onClose: () => void
               >
                 {activeStep === 0 ? (
                   <>
+                    <Box sx={{ color: 'primary.300' }}>
+                      {alert && (
+                        <ErrorBox>
+                          <InfoIcon />
+                          <UINewTypography>{alert}</UINewTypography>
+                        </ErrorBox>
+                      )}
+                    </Box>
                     <Box sx={{ display: 'flex', marginTop: { xs: '100px', sm: 0 } }}>
                       <ModelUITextConatiner gap="12px" alignItems="center">
                         <UINewTypography variant="MediumSemiBoldText" color="common.white" sx={{ fontWeight: '600', lineHeight: '41.6px' }}>
@@ -119,7 +133,7 @@ const GuestForgetPasswordLink = ({ onClose, onLoginOpen }: { onClose: () => void
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.email && Boolean(errors.email)}
-                          helperText={touched.email && errors.email}
+                          helperText={touched.email && errors.email ? <FormattedMessage id={errors.email} /> : ''}
                           sx={{
                             border: '2px solid',
                             borderColor: 'secondary.light',

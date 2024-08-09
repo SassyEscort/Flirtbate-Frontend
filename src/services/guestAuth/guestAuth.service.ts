@@ -5,6 +5,7 @@ import { ForgetPasswordParams } from 'views/auth/guestForgetPasswordLink';
 import { LoginParams } from 'views/auth/guestLogin';
 import { ResetPasswordEmailParams, ResetPasswordParams } from 'views/auth/guestNewPassword';
 import { SignupParams } from 'views/auth/guestSignup';
+import { GenericResCustom } from './authuser.services';
 
 export class GuestAuthService {
   static guestSignup = async (params: SignupParams) => {
@@ -65,18 +66,18 @@ export class GuestAuthService {
     }
   };
 
-  static guestResetPasswordEmail = async (params: ResetPasswordEmailParams): Promise<GenericResponse> => {
+  static guestResetPasswordEmail = async (params: ResetPasswordEmailParams): Promise<GenericResCustom> => {
     try {
-      const res = await axios.post<ResetPasswordEmailParams, GenericResponseData>(
+      const res = await axios.post<ResetPasswordEmailParams, GenericResCustom>(
         process.env.NEXT_PUBLIC_API_BASE_URL + `/v1/customer/reset-password-email`,
         params,
         {
           headers: { 'Content-Type': 'application/json' }
         }
       );
-      return res.data;
+      return res;
     } catch (error: any) {
-      return { error: error.response.data.message } as GenericResponse;
+      return { error: error.response.data.message } as GenericResCustom;
     }
   };
 

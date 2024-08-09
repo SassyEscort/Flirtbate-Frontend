@@ -28,7 +28,7 @@ const errorMessages: ErrorMessages = {
   2019: "The 'is_document' flag is required",
   2020: 'Please upload at least 2 photos. Sorry, you can upload 30 pictures only.',
   2021: 'Invalid verification step',
-  2022: 'Invalid email',
+  2022: 'Invalid',
   2023: 'Unable to send reset password email.',
   2024: 'Please enter a valid password to change your current password',
   2025: 'Please enter a valid password for setting new password',
