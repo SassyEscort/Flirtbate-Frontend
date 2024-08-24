@@ -138,7 +138,8 @@ const BillingHistory = () => {
                     <FirstTextContainer>
                       <BillingUIContainer sx={{ gap: 1.5 }}>
                         <UINewTypography variant="buttonLargeMenu" color={list.category === 'Credit' ? 'success.100' : 'error.main'}>
-                          {list?.category === 'Credit' ? '+' : '-'} {list?.credits} {list?.category}
+                          {list?.category === 'Credit' ? '+' : '-'} {list?.free_credits ? list?.free_credits : list?.credits}{' '}
+                          {list?.category}
                         </UINewTypography>
                         <DateTimeBilling variant="SubtitleSmallMedium" color="text.primary">
                           {moment(list?.created_at).format('LT')}, {moment(list?.created_at).format('DD MMMM YYYY')}
