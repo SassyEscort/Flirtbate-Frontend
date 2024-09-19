@@ -1,36 +1,36 @@
 import { v4 } from 'uuid';
 
 export const gaEventTrigger = (action: string, data: any, credits?: number) => {
-  // if (process.env.NEXT_PUBLIC_ENV === 'production') {
-  if (window.gtag) {
-    try {
-      // Check if the value is a string but not a JSON object
-      const isPlainString = typeof data.value === 'string' && !isJSON(data.value);
+  if (process.env.NEXT_PUBLIC_ENV === 'production') {
+    if (window.gtag) {
+      try {
+        // Check if the value is a string but not a JSON object
+        const isPlainString = typeof data.value === 'string' && !isJSON(data.value);
 
-      if (!isPlainString) {
-        const parsedValue = tryParseJSON(data.value);
-        if (parsedValue) {
-          const flattenedValue = flattenObject(parsedValue, 'custom_');
-          data = { ...data, ...flattenedValue };
+        if (!isPlainString) {
+          const parsedValue = tryParseJSON(data.value);
+          if (parsedValue) {
+            const flattenedValue = flattenObject(parsedValue, 'custom_');
+            data = { ...data, ...flattenedValue };
+          }
         }
-      }
 
-      if (action === 'purchase') {
-        data = {
-          ...data,
-          value: credits,
-          currency: 'USD',
-          transaction_id: v4(),
-          items: [{ name: 'purchase', quantity: 1, price: credits }],
-          item_name: 'purchase'
-        };
+        if (action === 'purchase') {
+          data = {
+            ...data,
+            value: credits,
+            currency: 'USD',
+            transaction_id: v4(),
+            items: [{ name: 'purchase', quantity: 1, price: credits }],
+            item_name: 'purchase'
+          };
+        }
+      } catch (e) {
+        console.error('Error processing value field:', e);
       }
-    } catch (e) {
-      console.error('Error processing value field:', e);
+      window.gtag('event', action, data);
     }
-    window.gtag('event', action, data);
   }
-  // }
 };
 
 // Helper function to safely parse JSON
