@@ -15,6 +15,8 @@ export const COMETCHAT_CONSTANTS = {
 
 const CallInitialize = () => {
   const token = useSession();
+  console.log(token, 'tokentokentoken');
+
   const modelUser = (token?.data?.user as User)?.picture;
   const modelUsername = modelUser && JSON.parse(modelUser);
 

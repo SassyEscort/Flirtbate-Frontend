@@ -41,9 +41,9 @@ import { TokenIdType } from 'views/protectedModelViews/verification';
 import { toast } from 'react-toastify';
 import { CustomerDetailsService } from 'services/customerDetails/customerDetails.services';
 import { ErrorMessage } from 'constants/common.constants';
-import { useCallFeatureContext } from '../../../../../context/CallFeatureContext';
 import { gaEventTrigger } from 'utils/analytics';
 import StyleBoostUserButton from 'components/UIComponents/StyleBoostUserButton';
+import { useAuthContext } from '../../../../../context/AuthContext';
 
 const WorkerCard = ({
   modelDetails,
@@ -67,7 +67,7 @@ const WorkerCard = ({
   const isTablet = useMediaQuery(theme.breakpoints.only('sm'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(425));
 
-  const { isCustomer, user } = useCallFeatureContext();
+  const { isCustomer, user } = useAuthContext();
 
   const languages = modelDetails?.languages
     ?.map((language) => language?.language_name)

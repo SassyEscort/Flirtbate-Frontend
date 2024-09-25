@@ -18,7 +18,7 @@ import Logout from 'views/protectedViews/logout';
 import ProfileMenu from 'views/protectedViews/protectedLayout/Header/TopNavItem/WorkerNavItem/ProfileMenu';
 import UINewTypography from 'components/UIComponents/UINewTypography';
 import { FirstBoxContainer, SecBoxContainer, ThirdBoxContainer } from './ModelHeaderAuthComponent.styled';
-import { useCallFeatureContext } from '../../../../../context/CallFeatureContext';
+import { useAuthContext } from '../../../../../context/AuthContext';
 
 export type NotificationFilters = {
   page: number;
@@ -26,7 +26,7 @@ export type NotificationFilters = {
 };
 
 const ModelHeaderAuthComponent = () => {
-  const { isCustomer } = useCallFeatureContext();
+  const { isCustomer } = useAuthContext();
 
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 

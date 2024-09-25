@@ -11,10 +11,10 @@ import { getUserDataClient } from 'utils/getSessionData';
 import { TokenIdType } from 'views/protectedModelViews/verification';
 import { ModelDetailsResponse } from 'views/protectedModelViews/verification/verificationTypes';
 import ProfileApproval from '../profileApproval';
-import { useCallFeatureContext } from '../../../../context/CallFeatureContext';
+import { useAuthContext } from '../../../../context/AuthContext';
 
 const DashboardNavItem = () => {
-  const { isCustomer } = useCallFeatureContext();
+  const { isCustomer } = useAuthContext();
 
   const [token, setToken] = useState<TokenIdType>({ id: 0, token: '' });
   const [modelDetails, setModelDetails] = useState<ModelDetailsResponse>();

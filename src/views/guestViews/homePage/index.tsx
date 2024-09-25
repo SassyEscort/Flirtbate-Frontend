@@ -12,11 +12,11 @@ import BackdropProgress from 'components/UIComponents/BackDropProgress';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { HOME_PAGE_SIZE } from 'constants/common.constants';
 import { getQueryParam } from 'utils/genericFunction';
-import { useCallFeatureContext } from '../../../../context/CallFeatureContext';
 import { CustomerFreeCreditsService } from 'services/customerFreeCredits/customerFreeCredits.services';
+import { useAuthContext } from '../../../../context/AuthContext';
 
 const HomeContainer = () => {
-  const { isCustomer } = useCallFeatureContext();
+  const { isCustomer } = useAuthContext();
 
   const searchParams = useSearchParams();
   const router = useRouter();

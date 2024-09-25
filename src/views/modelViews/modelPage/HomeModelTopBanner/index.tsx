@@ -30,10 +30,10 @@ import { MODEL_ACTIVE_STEP } from 'constants/workerVerification';
 import { getUserDataClient } from 'utils/getSessionData';
 import { TokenIdType } from 'views/protectedModelViews/verification';
 import ModelNewPassword from 'views/modelViews/ModelNewPassword';
-import { useCallFeatureContext } from '../../../../../context/CallFeatureContext';
+import { useAuthContext } from '../../../../../context/AuthContext';
 
 const HomeModelTopBanner = () => {
-  const { isCustomer } = useCallFeatureContext();
+  const { isCustomer } = useAuthContext();
 
   const url = new URL(window.location.href);
   const email = url.searchParams.get('email');

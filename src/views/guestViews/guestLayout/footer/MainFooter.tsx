@@ -16,9 +16,9 @@ import GuestSignup from 'views/auth/guestSignup';
 import GuestLogin from 'views/auth/guestLogin';
 import GuestForgetPasswordLink from 'views/auth/guestForgetPasswordLink';
 import { gaEventTrigger } from 'utils/analytics';
-import { useCallFeatureContext } from '../../../../../context/CallFeatureContext';
 import HomePageFreeSignup from 'views/auth/homePageFreeSignup';
 import { useState } from 'react';
+import { useAuthContext } from '../../../../../context/AuthContext';
 
 const MainFooter = ({
   isFreeCreditAvailable,
@@ -37,7 +37,7 @@ const MainFooter = ({
   handleLoginClose: () => void;
   openLogin: boolean;
 }) => {
-  const { isCustomer } = useCallFeatureContext();
+  const { isCustomer } = useAuthContext();
   const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [open, setIsOpen] = useState(false);

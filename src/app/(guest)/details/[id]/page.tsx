@@ -2,6 +2,8 @@ import { SEO_DATA } from 'constants/seoConstants';
 import { Metadata } from 'next';
 import { ModelSeoService } from 'services/modelSeo/modelSeo.services';
 import EscortDetailPage from 'views/guestViews/details/EscortDetailPage';
+import { CallFeatureProvider } from '../../../../../context/CallFeatureContext';
+import CallFeature from 'views/protectedViews/callingFeature';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const model = params.id;
@@ -27,7 +29,14 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 const WorkerDetailPage = () => {
-  return <>{<EscortDetailPage />}</>;
+  return (
+    <>
+      <CallFeatureProvider>
+        <CallFeature />
+        <EscortDetailPage />
+      </CallFeatureProvider>
+    </>
+  );
 };
 
 export default WorkerDetailPage;

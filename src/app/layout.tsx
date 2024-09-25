@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from 'next';
 import ProviderWrapper from './ProviderWrapper';
-import { CallFeatureProvider } from '../../context/CallFeatureContext';
-import CallFeature from 'views/protectedViews/callingFeature';
 import { SEO_DATA } from 'constants/seoConstants';
+import { AuthFeaturProvider } from '../../context/AuthContext';
 
 export const metadata: Metadata = {
   title: SEO_DATA.TITLE,
@@ -115,10 +114,10 @@ export default function RootLayout({
       <body>
         <ProviderWrapper>
           <>
-            <CallFeatureProvider>
-              <CallFeature />
-              {children}
-            </CallFeatureProvider>
+            {/* <CallFeatureProvider>
+              <CallFeature /> */}
+            <AuthFeaturProvider>{children}</AuthFeaturProvider>
+            {/* </CallFeatureProvider> */}
           </>
         </ProviderWrapper>
       </body>

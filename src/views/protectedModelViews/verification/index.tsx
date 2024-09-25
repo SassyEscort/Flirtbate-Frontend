@@ -19,8 +19,8 @@ import ProfileCreated from './profileCreated';
 import { MODEL_ACTIVE_STEP } from 'constants/workerVerification';
 import { useRouter } from 'next/navigation';
 import DashboardPriceView from 'views/protectedDashboardViews/dashboardPriceView';
-import { useCallFeatureContext } from '../../../../context/CallFeatureContext';
 import { MODEL_ACTION } from 'constants/profileConstants';
+import { useAuthContext } from '../../../../context/AuthContext';
 
 const VERIFICATION_STEPS = ['Basic Details', 'Documents', 'Photos', 'Price', 'Review'];
 
@@ -32,7 +32,7 @@ export type TokenIdType = {
 };
 
 const VerificationContainer = () => {
-  const { isCustomer } = useCallFeatureContext();
+  const { isCustomer } = useAuthContext();
 
   const router = useRouter();
 

@@ -34,9 +34,9 @@ import GuestLogin from 'views/auth/guestLogin';
 import GuestForgetPasswordLink from 'views/auth/guestForgetPasswordLink';
 import GuestNewPassword from 'views/auth/guestNewPassword';
 import { useRouter } from 'next/navigation';
-import { useCallFeatureContext } from '../../../../../context/CallFeatureContext';
 import HomePageFreeSignup from 'views/auth/homePageFreeSignup';
 import { gaEventTrigger } from 'utils/analytics';
+import { useAuthContext } from '../../../../../context/AuthContext';
 
 const HomeConnections = ({ isFreeCreditAvailable }: { isFreeCreditAvailable: number }) => {
   const { push } = useRouter();
@@ -52,7 +52,7 @@ const HomeConnections = ({ isFreeCreditAvailable }: { isFreeCreditAvailable: num
   const [openChangePassword, setIsOpenChangePassword] = useState(email && !id && url.pathname !== '/profile' ? true : false);
   const [freeSignupOpen, setFreeSignupOpen] = useState(false);
 
-  const { isCustomer } = useCallFeatureContext();
+  const { isCustomer } = useAuthContext();
 
   const handleSignupOpen = () => {
     setIsOpen(true);

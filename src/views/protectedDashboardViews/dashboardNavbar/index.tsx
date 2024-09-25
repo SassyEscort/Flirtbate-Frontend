@@ -24,8 +24,8 @@ import { getUserDataClient } from 'utils/getSessionData';
 import { TokenIdType } from 'views/protectedModelViews/verification';
 import { ModelDetailsResponse } from 'views/protectedModelViews/verification/verificationTypes';
 import Availability from './Availability';
-import { useCallFeatureContext } from '../../../../context/CallFeatureContext';
 import { useIntl } from 'react-intl';
+import { useAuthContext } from '../../../../context/AuthContext';
 
 ModelNav.propTypes = {
   openNav: PropTypes.bool,
@@ -39,7 +39,7 @@ interface NavProps {
 
 export default function ModelNav({ openNav, onCloseNav }: NavProps) {
   const intl = useIntl();
-  const { isCustomer } = useCallFeatureContext();
+  const { isCustomer } = useAuthContext();
 
   const router = usePathname();
 
