@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect, useCallback, useRef } from 'react';
 import { CometChatUIKitConstants } from '@cometchat/uikit-resources';
 import { Call, CometChat } from '@cometchat/chat-sdk-javascript';
 import { toast } from 'react-toastify';
@@ -145,6 +145,7 @@ export const CallFeatureProvider = ({ children }: { children: ReactNode }) => {
   const [callTime, setCallTime] = useState(0);
   const [modelUsername, setModelUsername] = useState('');
   const [isFavouriteModel, setIsFavouriteModel] = useState(0);
+  const hasCallLogged = useRef(false);
 
   const modelObj = {
     modelId: modelId,
@@ -240,7 +241,7 @@ export const CallFeatureProvider = ({ children }: { children: ReactNode }) => {
 
         if (guestId && isCreditAvailable && !call && Boolean(token.token) && isModelAvailable.data.is_online) {
           const isModelBusy = await CallingService.getModelCallStatus(guestId, token.token);
-          if (isModelBusy.data.ongoing_calls) {
+          if (!isModelBusy.data.ongoing_calls) {
             gaEventTrigger('Model_busy', {
               action: 'Model_busy',
               category: 'Button',
@@ -267,7 +268,7 @@ export const CallFeatureProvider = ({ children }: { children: ReactNode }) => {
             setCall(callInitiate);
             setSessionId(callInitiate.getSessionId());
             setIsCallEnded(false);
-            await creditPutCallLog(guestId, callInitiate.getSessionId(), '');
+            // await creditPutCallLog(guestId, callInitiate.getSessionId(), '');
             setIsLoading(false);
           }
         } else if (call) {
@@ -378,6 +379,14 @@ export const CallFeatureProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     CometChatCalls.addCallEventListener(String(modelId), {
+      onUserJoined: async () => {
+        if (!hasCallLogged.current) {
+          hasCallLogged.current = true;
+          if (isCustomer) {
+            await creditPutCallLog(modelId, sessionId, '');
+          }
+        }
+      },
       onCallEnded: async () => {
         setIsCallAccepted(false);
         setCall(undefined);
@@ -525,7 +534,8 @@ export const CallFeatureProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      if (isCallAccepted && isCustomer) {
+      // if (isCallAccepted && isCustomer) {
+      if (hasCallLogged.current && isCustomer) {
         try {
           const endCall = await creditPutCallLog(modelId, sessionId, '');
           if (endCall && endCall.end_call) {
@@ -541,7 +551,7 @@ export const CallFeatureProvider = ({ children }: { children: ReactNode }) => {
 
     return () => clearInterval(intervalId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCallAccepted, isCustomer, modelId, sessionId, isCallEnded]);
+  }, [isCustomer, modelId, sessionId, hasCallLogged.current]);
 
   useEffect(() => {
     const timerId = setTimeout(async () => {
