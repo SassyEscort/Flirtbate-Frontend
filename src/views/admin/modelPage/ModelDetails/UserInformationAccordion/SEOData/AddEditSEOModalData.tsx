@@ -17,20 +17,19 @@ import { useEffect, useState } from 'react';
 import { TokenIdType } from 'views/protectedModelViews/verification';
 import { getUserDataClient } from 'utils/getSessionData';
 import { ErrorMessage } from 'constants/common.constants';
-import { PAGE_SIZE } from 'constants/pageConstants';
-import { PaginationType } from './SEOContainer';
-import { AdminSEOProfileData, AdminSEOProfileParam, adminSEOServices } from 'services/adminSEOProfilePlan/adminSEOProfilePlan.services';
+import { AdminSEOProfileParam, adminSEOServices } from 'services/adminSEOProfilePlan/adminSEOProfilePlan.services';
+import { ModelDetailsRes } from 'services/adminModel/types';
 
-const AddEditSEOModal = ({
+const AddEditSEOModalData = ({
   open,
   onClose,
-  selectedSEO,
-  handleChangeFilter
+  modelData,
+  fetchModelData
 }: {
   open: boolean;
   onClose: () => void;
-  selectedSEO: AdminSEOProfileData | null;
-  handleChangeFilter: (value: PaginationType) => void;
+  modelData: ModelDetailsRes | undefined;
+  fetchModelData: () => void;
 }) => {
   const validationSchema = yup.object({
     model_name: yup.string().required('Model name is required'),
@@ -49,15 +48,7 @@ const AddEditSEOModal = ({
       if (res.code === 200) {
         toast.success('SEO added successfully');
         onClose();
-        handleChangeFilter({
-          page: 1,
-          offset: 0,
-          pageSize: PAGE_SIZE,
-          sort_field: 'newest',
-          sort_order: 'desc',
-          search_field: '',
-          limit: 10
-        });
+        fetchModelData();
       } else {
         toast.error(ErrorMessage);
       }
@@ -76,20 +67,12 @@ const AddEditSEOModal = ({
 
   const handleFormEdit = async (values: AdminSEOProfileParam) => {
     setIsLoading(true);
-    const res = await adminSEOServices.adminUpdateSEOProfile(values, Number(selectedSEO?.seo_id), token.token);
+    const res = await adminSEOServices.adminUpdateSEOProfile(values, Number(modelData?.data?.model_seo[0]?.seo_id), token.token);
     if (res) {
       if (res.code === 200) {
         toast.success('SEO edit successfully');
         onClose();
-        handleChangeFilter({
-          page: 1,
-          offset: 0,
-          pageSize: PAGE_SIZE,
-          sort_field: 'newest',
-          sort_order: 'desc',
-          search_field: '',
-          limit: 10
-        });
+        fetchModelData();
       } else {
         toast.error(ErrorMessage);
       }
@@ -108,7 +91,10 @@ const AddEditSEOModal = ({
         }}
       >
         <Typography variant="subtitle">
-          {selectedSEO?.title && selectedSEO?.keywords && selectedSEO?.description ? 'Edit' : 'Add'} SEO
+          {modelData?.data?.model_seo[0]?.title && modelData?.data?.model_seo[0]?.keywords && modelData?.data?.model_seo[0]?.description
+            ? 'Edit'
+            : 'Add'}{' '}
+          SEO
         </Typography>
 
         <IconButton onClick={onClose}>
@@ -117,16 +103,17 @@ const AddEditSEOModal = ({
       </DialogTitle>
       <Formik
         initialValues={{
-          model_id: selectedSEO?.model_id || 0,
-          model_name: selectedSEO?.model_name || '',
-          title: selectedSEO?.title || '',
-          keywords: selectedSEO?.keywords || '',
-          description: selectedSEO?.description || '',
-          user_name: selectedSEO?.user_name || ''
+          model_id: modelData?.data?.model_seo[0]?.model_id || 0,
+          model_name: modelData?.data?.model_seo[0]?.model_name || '',
+          title: modelData?.data?.model_seo[0]?.title || '',
+          keywords: modelData?.data?.model_seo[0]?.keywords || '',
+          description: modelData?.data?.model_seo[0]?.description || '',
+          user_name: modelData?.data?.model_seo[0]?.user_name || ''
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
-          if (selectedSEO?.title && selectedSEO?.keywords && selectedSEO?.description) await handleFormEdit(values);
+          if (modelData?.data?.model_seo[0]?.title && modelData?.data?.model_seo[0]?.keywords && modelData?.data?.model_seo[0]?.description)
+            await handleFormEdit(values);
           else await handleFormSubmit(values);
           setSubmitting(false);
         }}
@@ -189,7 +176,11 @@ const AddEditSEOModal = ({
                   Cancel
                 </Button>
                 <LoadingButton loading={isLoading} size="large" type="submit" variant="contained" color="primary">
-                  Publish
+                  {modelData?.data?.model_seo[0]?.title &&
+                  modelData?.data?.model_seo[0]?.keywords &&
+                  modelData?.data?.model_seo[0]?.description
+                    ? 'Edit'
+                    : 'Add'}{' '}
                 </LoadingButton>
               </DialogActions>
             </Box>
@@ -200,4 +191,4 @@ const AddEditSEOModal = ({
   );
 };
 
-export default AddEditSEOModal;
+export default AddEditSEOModalData;

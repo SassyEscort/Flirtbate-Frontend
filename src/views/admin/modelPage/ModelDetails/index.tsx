@@ -10,7 +10,7 @@ import { ModelDetailsRes } from 'services/adminModel/types';
 import { toast } from 'react-toastify';
 import { ErrorMessage } from 'constants/common.constants';
 import ProfileCrad from './ProfileCrad';
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import UserInformationAccordion from './UserInformationAccordion';
 import Box from '@mui/system/Box';
 import DetailsApproveReject from './DetailsApproveReject';
@@ -18,11 +18,24 @@ import { PAYOUT_ACTION } from 'constants/payoutsConstants';
 import StyleBoostAdminButton from 'components/UIComponents/StyleBoostAdminButton';
 import UINewTypography from 'components/UIComponents/UINewTypography';
 import { adminBoostProfilePlanServices } from 'services/adminBoostProfilePlan/adminBoostProfilePlan.services';
+import { Add } from '@mui/icons-material';
+import AddEditSEOModalData from './UserInformationAccordion/SEOData/AddEditSEOModalData';
+
+export type PaginationTypeModel = {
+  page: number;
+  offset: number;
+  pageSize: number;
+  orderField: string;
+  sort_order: string;
+  search_field: string;
+  limit: number;
+};
 
 const ModelDetailsPage = () => {
   const { id: modelId } = useParams();
   const [modelData, setModelData] = useState<ModelDetailsRes>();
   const [token, setToken] = useState<TokenIdType>({ id: 0, token: '' });
+  const [openAddEditModal, setOpenAddEditModal] = useState(false);
 
   const handleModelBoostById = async () => {
     try {
@@ -66,6 +79,14 @@ const ModelDetailsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token.token]);
 
+  const handleOpenAddEditModal = () => {
+    setOpenAddEditModal(true);
+  };
+
+  const handleCloseAddEditModal = () => {
+    setOpenAddEditModal(false);
+  };
+
   const isModelPending = modelData?.data?.profile_status === PAYOUT_ACTION.PENDING;
   const isFreeBoostUsed = modelData?.data?.model_profile_plans?.free_plan_used;
 
@@ -80,15 +101,28 @@ const ModelDetailsPage = () => {
                 sx={{
                   display: 'flex',
                   justifyContent: isModelPending ? 'space-between' : 'end',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  gap: 2
                 }}
               >
                 {isModelPending && <DetailsApproveReject workerId={Number(modelId)} fetchModelData={fetchModelData} />}
                 {!isFreeBoostUsed && (
                   <StyleBoostAdminButton onClick={handleModelBoostById}>
-                    <UINewTypography variant="buttonLargeMenu">Boost {modelData?.data.name} profile</UINewTypography>
+                    <UINewTypography variant="buttonLargeMenu">Boost {modelData?.data?.name} profile</UINewTypography>
                   </StyleBoostAdminButton>
                 )}
+                <Box>
+                  <Button size="large" variant="contained" startIcon={<Add />} sx={{ width: '100%' }} onClick={handleOpenAddEditModal}>
+                    <UINewTypography variant="buttonLargeMenu">
+                      {modelData?.data?.model_seo[0]?.title &&
+                      modelData?.data?.model_seo[0]?.keywords &&
+                      modelData?.data?.model_seo[0]?.description
+                        ? 'Edit'
+                        : 'Add'}{' '}
+                      {modelData?.data?.name} SEO
+                    </UINewTypography>
+                  </Button>
+                </Box>
               </Box>
             </Box>
           </Grid>
@@ -98,6 +132,14 @@ const ModelDetailsPage = () => {
           </Grid>
         </Grid>
       </Container>
+      {openAddEditModal && (
+        <AddEditSEOModalData
+          open={openAddEditModal}
+          onClose={handleCloseAddEditModal}
+          modelData={modelData}
+          fetchModelData={fetchModelData}
+        />
+      )}
     </DashboardLayout>
   );
 };

@@ -148,7 +148,7 @@ const DashboardPriceView = ({
     setIsChanged(true);
     setFieldValue('price', val);
     const inputCommissionValue = (Number(val) * commsionPercentage) / 100;
-    setCommistionValue(Number(inputCommissionValue.toFixed(2)));
+    if (inputCommissionValue) setCommistionValue(Number(inputCommissionValue?.toFixed(2)));
   };
 
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));

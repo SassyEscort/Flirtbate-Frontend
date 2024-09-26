@@ -304,8 +304,19 @@ export const CallFeatureProvider = ({ children }: { children: ReactNode }) => {
           setOpen(true);
         }
       }
-    } catch (error) {
-      toast.error(intl.formatMessage({ id: 'PermissionForAudioAndVideo' }));
+    } catch (error: any) {
+      setIsLoading(false);
+      if (error?.code) {
+        gaEventTrigger('Uid_Not_Found', {
+          action: 'Uid_Not_Found',
+          category: 'Button',
+          label: 'Uid_Not_Found',
+          value: modelId
+        });
+        toast.error(intl.formatMessage({ id: ErrorMessage }));
+      } else {
+        toast.error(intl.formatMessage({ id: 'PermissionForAudioAndVideo' }));
+      }
     }
   };
 
@@ -414,13 +425,6 @@ export const CallFeatureProvider = ({ children }: { children: ReactNode }) => {
       onIncomingCallReceived: async (call: Call) => {
         setIsCallIncoming(true);
         setSessionId(call.getSessionId());
-        gaEventTrigger('Video_call_unanswered', {
-          action: 'Video_call_unanswered',
-          category: 'Button',
-          label: 'Video_call_unanswered',
-          value: JSON.stringify(customerInfo)
-        });
-        await creditPutCallLog(modelId, call.getSessionId(), CALLING_STATUS.UNASWERED);
       },
       onOutgoingCallAccepted: async () => {
         gaEventTrigger('Video_call_started', {

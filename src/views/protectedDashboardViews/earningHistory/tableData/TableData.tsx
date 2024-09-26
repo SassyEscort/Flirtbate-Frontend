@@ -26,7 +26,7 @@ const TableData = ({ modelEarningHistory }: { modelEarningHistory: ModelEarningH
                   ? moment
                       .duration(dp?.call_duration)
                       .asMinutes()
-                      .toFixed(2)
+                      ?.toFixed(2)
                   : '-'}
               </UINewTypography>
             </TableCell>{' '}

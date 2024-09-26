@@ -68,7 +68,7 @@ function CreditsAdded({
         </ImageContainer>
         <AddedCreditsContainer>
           <UINewTypographyNew>
-            {addedCredits} <FormattedMessage id="NewCredits" />
+            {addedCredits?.toFixed(2) || 0} <FormattedMessage id="NewCredits" />
           </UINewTypographyNew>
         </AddedCreditsContainer>
         <NewBalanceDetailsConatainer>
@@ -78,7 +78,7 @@ function CreditsAdded({
           <NewBalanceDetails>
             <Image alt="home_model" width={24} height={24} src="/images/workercards/dollar-img.avif" />
             <UINewTypography sx={{ pl: '8px' }}>
-              {newBalance} <FormattedMessage id="Credits" />
+              {newBalance?.toFixed(2) || 0} <FormattedMessage id="Credits" />
             </UINewTypography>
           </NewBalanceDetails>
         </NewBalanceDetailsConatainer>
@@ -93,7 +93,6 @@ function CreditsAdded({
             </Link>
           </ExploreButtonContainer>
         ) : (
-          // <>
           <ExploreButtonContainer>
             <RedirectInfoBox>
               <UINewTypography variant="bodySmallBold">
@@ -106,7 +105,6 @@ function CreditsAdded({
               </UINewTypography>
             </RedirectInfoBox>
           </ExploreButtonContainer>
-          // </>
         )}
       </CreditsBodyContainer>
     </CreditsAddedMainBox>

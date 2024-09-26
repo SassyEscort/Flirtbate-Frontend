@@ -141,8 +141,6 @@ const AddEditBoostModal = ({
         }}
       >
         {({ values, errors, touched, handleChange, setFieldValue, handleBlur, handleSubmit }) => {
-          console.log('errors', errors);
-
           return (
             <Box component="form" onSubmit={handleSubmit}>
               <DialogContent dividers>

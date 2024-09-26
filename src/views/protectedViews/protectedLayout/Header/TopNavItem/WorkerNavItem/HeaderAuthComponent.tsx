@@ -181,7 +181,7 @@ const HeaderAuthComponent = () => {
             <Box alignItems="center" gap={1} display="flex">
               <Box component="img" src="/images/header/coin.png" />
               <UINewTypography variant="buttonLargeMenu" color="text.secondary">
-                {balance}
+                {balance?.toFixed(2) || 0}
               </UINewTypography>
             </Box>
           </Link>
@@ -280,7 +280,7 @@ const HeaderAuthComponent = () => {
                     </ListItemIcon>
                     <ListItemText>
                       <UINewTypography variant="bodyLight" color="text.secondary">
-                        {balance}
+                        {balance?.toFixed(2) || 0}
                       </UINewTypography>
                     </ListItemText>
                   </MenuItem>

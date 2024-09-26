@@ -119,7 +119,7 @@ const BillingDetails = ({
                   <CreditsPriceBox>
                     <SecondSubContainerImgWorkerCard src="/images/workercards/coin-details.png" />
                     <UINewTypography variant="buttonLargeMenu" color="text.secondary">
-                      {selectDetails.credits}
+                      {selectDetails?.credits?.toFixed(2) || 0}
                     </UINewTypography>
                   </CreditsPriceBox>
                 </CreditsMainBox>

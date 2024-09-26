@@ -7,6 +7,7 @@ import ModelPhotos from './ModelPhotos';
 import ModelInformation from './ModelInformation';
 import ModelDocument from './ModelDocument';
 import { UserInformationAccordionBox } from './UserInformationAccordion.styled';
+import SEOData from './SEOData';
 
 const UserInformationAccordion = ({ modelData }: { modelData: ModelDetailsRes }) => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -44,6 +45,14 @@ const UserInformationAccordion = ({ modelData }: { modelData: ModelDetailsRes })
         </MuiAccordionSummary>
         <AccordionDetails>
           <ModelDocument modelData={modelData} />
+        </AccordionDetails>
+      </MuiAccordion>
+      <MuiAccordion expanded={expanded === 'SEO'} onChange={handleChange('SEO')} disableGutters elevation={0} square>
+        <MuiAccordionSummary>
+          <UINewTypography variant="h5">SEO</UINewTypography>
+        </MuiAccordionSummary>
+        <AccordionDetails>
+          <SEOData modelData={modelData} />
         </AccordionDetails>
       </MuiAccordion>
     </UserInformationAccordionBox>

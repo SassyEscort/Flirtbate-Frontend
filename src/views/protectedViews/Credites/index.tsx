@@ -158,7 +158,7 @@ const Credits = () => {
                 <SecondBoxContainer>
                   <SecondSubContainerImgWorkerCard src="/images/workercards/coin-1.png" />
                   <UINewTypography variant="buttonLargeMenu" color="text.secondary">
-                    {balance}
+                    {balance.toFixed(2)}
                   </UINewTypography>
                 </SecondBoxContainer>
               </FirsTextSubContainer>
@@ -187,7 +187,7 @@ const Credits = () => {
                         <CreditBuyText variant="bodySmall" color="secondary.700">
                           <FormattedMessage id="BuyNowAt" />
                         </CreditBuyText>
-                        <DollarCreditText color="text.secondary">${listCredit?.amount}</DollarCreditText>
+                        <DollarCreditText color="text.secondary">${listCredit?.amount.toFixed(2)}</DollarCreditText>
                       </BoxSecondTextContainer>
                     </ImagSubContainer>
                   ))}

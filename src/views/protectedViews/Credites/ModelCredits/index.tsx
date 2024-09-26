@@ -131,7 +131,7 @@ const ModelCredits = ({
                 </UINewTypography>
                 <CreditCardImage src="/images/workercards/dollar-img.avif" />
 
-                <UINewTypography variant="buttonLargeMenu">{balance}</UINewTypography>
+                <UINewTypography variant="buttonLargeMenu">{balance?.toFixed(2) || 0}</UINewTypography>
                 <FormattedMessage id="Credits" />
               </BalanceInfoBox>
             )}
@@ -144,7 +144,7 @@ const ModelCredits = ({
               </UINewTypography>
               <CreditCardImage src="/images/workercards/dollar-img.avif" />
 
-              <UINewTypography variant="buttonLargeMenu">{balance}</UINewTypography>
+              <UINewTypography variant="buttonLargeMenu">{balance?.toFixed(2) || 0}</UINewTypography>
               <FormattedMessage id="Credits" />
             </BalanceInfoBoxV2>
           )}

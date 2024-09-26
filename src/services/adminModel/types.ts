@@ -41,6 +41,16 @@ export type VideoCallPrice = {
   price_per_minute_id: number;
 };
 
+export type ModelSEOData = {
+  title: string;
+  keywords: string;
+  description: string;
+  model_id: number;
+  user_name?: string;
+  model_name: string;
+  seo_id?: number;
+};
+
 export type ModelProfilePlans = {
   free_plan_used: number;
 };
@@ -65,6 +75,7 @@ export type ModelDetails = {
   updated_at: string;
   profile_status: string;
   model_profile_plans: ModelProfilePlans;
+  model_seo: ModelSEOData[];
 };
 
 export interface ModelDetailsRes extends GenericRes {

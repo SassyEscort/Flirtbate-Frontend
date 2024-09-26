@@ -11,7 +11,7 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Box from '@mui/material/Box';
-import { CircularProgress, IconButton, MenuItem } from '@mui/material';
+import { CircularProgress, FormControl, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
 import { MoreVert, Visibility } from '@mui/icons-material';
 import { useCallback, useEffect, useState } from 'react';
 import { getUserDataClient } from 'utils/getSessionData';
@@ -38,10 +38,11 @@ export type PaginationType = {
   page: number;
   offset: number;
   pageSize: number;
-  orderField: string;
+  sort_field: string;
   sort_order: string;
   search_field: string;
   limit: number;
+  is_seo?: number;
 };
 
 export default function SEOContainer() {
@@ -56,20 +57,24 @@ export default function SEOContainer() {
   const [openAddEditModal, setOpenAddEditModal] = useState(false);
   const [selectedSEO, setSelectedSEO] = useState<AdminSEOProfileData | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [SEODataFilter, setSEODataFilter] = useState<number>(2);
 
   const [filters, setFilters] = useState<PaginationType>({
     page: 1,
     offset: 0,
     pageSize: PAGE_SIZE,
-    orderField: 'newest',
+    sort_field: 'newest',
     sort_order: 'desc',
     search_field: '',
-    limit: 10
+    limit: 10,
+    is_seo: 2
   });
 
   const SORT_BY_OPTIONS: PaginationSortByOption[] = [
-    { value: 'name', label: 'Name' },
-    { value: 'email', label: 'Email' }
+    { value: 'name', label: 'Model Name' },
+    { value: 'title', label: 'Title' },
+    { value: 'keywords', label: 'Keywords' },
+    { value: 'description', label: 'description' }
   ];
   useEffect(() => {
     const userToken = async () => {
@@ -85,7 +90,15 @@ export default function SEOContainer() {
 
   const handelFetch = async () => {
     setIsLoading(true);
-    const res = await adminSEOServices.adminGetSEOProfile(token.token, filters.limit, filters.offset, filters.search_field);
+    const res = await adminSEOServices.adminGetSEOProfile(
+      token.token,
+      filters.limit,
+      filters.offset,
+      filters.search_field,
+      filters.sort_field,
+      filters.sort_order,
+      filters.is_seo
+    );
     if (res) {
       if (res.code == 200) {
         setData(res?.data?.model_seo);
@@ -141,7 +154,7 @@ export default function SEOContainer() {
       handleChangeFilter({
         ...filters,
         sort_order: type,
-        orderField: field,
+        sort_field: field,
         page: 1
       });
     },
@@ -178,6 +191,11 @@ export default function SEOContainer() {
     setOpenDeleteModal(false);
   };
 
+  const handleSEODataChange = (value: number) => {
+    setSEODataFilter(value);
+    handleChangeFilter({ ...filters, is_seo: value });
+  };
+
   const handleDeleteClick = async () => {
     const res = await adminSEOServices.adminDeleteSEOProfile(Number(selectedSEOData?.seo_id), token.token);
     if (res) {
@@ -188,7 +206,7 @@ export default function SEOContainer() {
           page: 1,
           offset: 0,
           pageSize: PAGE_SIZE,
-          orderField: 'newest',
+          sort_field: 'newest',
           sort_order: 'desc',
           search_field: '',
           limit: 10
@@ -207,13 +225,29 @@ export default function SEOContainer() {
             SEO
           </Typography>
         </Stack>
-        <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" justifyContent="space-between" mb={1}>
-          <PaginationSearch placeholder="Search..." handleChangeSearch={handleChangeSearch} />
+        <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" mb={1} gap={1}>
+          <PaginationSearch placeholder="Model Name" handleChangeSearch={handleChangeSearch} />
+          <FormControl fullWidth sx={{ width: '100%', maxWidth: '250px' }}>
+            <InputLabel id="demo-simple-select-label">SEO data</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              name="seo_data"
+              id="demo-simple-select"
+              label="SEO data"
+              value={SEODataFilter}
+              onChange={(e) => handleSEODataChange(Number(e.target.value))}
+            >
+              <MenuItem value={2}>All</MenuItem>
+              <MenuItem value={1}>Yes</MenuItem>
+              <MenuItem value={0}>No</MenuItem>
+            </Select>
+          </FormControl>
         </Stack>
+
         <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%' }}>
           <PaginationSortBy
             sortByOptions={SORT_BY_OPTIONS}
-            orderField={filters.orderField}
+            orderField={filters.sort_field}
             orderType={filters.sort_order}
             handleChangeOrderBy={handleChangeOrderBy}
           />

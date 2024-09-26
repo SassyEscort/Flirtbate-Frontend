@@ -221,7 +221,7 @@ export default function PayoutPageContainer() {
                         <TableCell component="th" scope="row">
                           {item?.email || '-'}
                         </TableCell>
-                        <TableCell sx={{ textAlign: 'left' }}>{item?.amount ? `$${item?.amount.toFixed(2)}` : '-'}</TableCell>
+                        <TableCell sx={{ textAlign: 'left' }}>{item?.amount ? `$${item?.amount?.toFixed(2)}` : '-'}</TableCell>
 
                         <TableCell component="th" scope="row">
                           {item?.bank_name || '-'}

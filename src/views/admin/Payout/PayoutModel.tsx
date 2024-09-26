@@ -56,7 +56,7 @@ const PayoutModel = ({
               <td>
                 <strong>Payout Amount</strong>
               </td>
-              <td>{selectedPayoutData?.amount ? `$${selectedPayoutData.amount.toFixed(2)}` : '-'}</td>
+              <td>{selectedPayoutData?.amount ? `$${selectedPayoutData.amount?.toFixed(2)}` : '-'}</td>
             </tr>
             <tr>
               <td>

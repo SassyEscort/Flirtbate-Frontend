@@ -275,10 +275,10 @@ export default function CallLogsContainer() {
                           {item?.credits_per_minute || '-'}
                         </TableCell>
                         <TableCell component="th" scope="row">
-                          {item.rate_per_minute ? `€${item.rate_per_minute.toFixed(2)}` : '-'}
+                          {item.rate_per_minute ? `€${item.rate_per_minute?.toFixed(2)}` : '-'}
                         </TableCell>
                         <TableCell component="th" scope="row">
-                          {item.amount_earned ? `€${item.amount_earned.toFixed(2)}` : '-'}
+                          {item.amount_earned ? `€${item.amount_earned?.toFixed(2)}` : '-'}
                         </TableCell>
                         <TableCell component="th" scope="row">
                           {item?.start_time && item?.end_time

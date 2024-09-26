@@ -8,6 +8,7 @@ export interface SeoModel {
   model_id: number;
   user_name: string;
   model_name: string;
+  country_name: string;
   created_at: string;
   updated_at: string;
 }
