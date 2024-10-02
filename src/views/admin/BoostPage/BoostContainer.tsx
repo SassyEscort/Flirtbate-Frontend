@@ -21,7 +21,6 @@ import PaginationSortBy from 'components/common/CustomPaginations/PaginationSort
 import { PAGE_SIZE } from 'constants/pageConstants';
 import TablePager from 'components/common/CustomPaginations/TablePager';
 import { StyledPopover } from './Boost.styled';
-import { debounce } from 'lodash';
 import BoostListHead from './BoostListHead';
 import BoostModel from './BoostModel';
 import AddEditBoostModal from './AddEditBoostModal';
@@ -32,7 +31,8 @@ import Add from '@mui/icons-material/Add';
 import { AdminBoostProfileData, adminBoostProfilePlanServices } from 'services/adminBoostProfilePlan/adminBoostProfilePlan.services';
 import { toast } from 'react-toastify';
 import { ErrorMessage } from 'constants/common.constants';
-import PaginationSearch from 'components/common/CustomPaginations/PaginationSearch';
+import { getQueryParam } from 'utils/genericFunction';
+import { useSearchParams } from 'next/navigation';
 
 export type PaginationType = {
   page: number;
@@ -56,6 +56,8 @@ export default function BoostContainer() {
   const [openAddEditModal, setOpenAddEditModal] = useState(false);
   const [selectedBoost, setSelectedBoost] = useState<AdminBoostProfileData | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState<PaginationType>({
     page: 1,
@@ -148,16 +150,21 @@ export default function BoostContainer() {
     [filters, handleChangeFilter]
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedChangeSearch = useCallback(
-    debounce((val: string) => {
-      handleChangeFilter({ ...filters, search_field: val, page: 1 });
-    }, 500),
-    [filters, handleChangeFilter]
-  );
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // const debouncedChangeSearch = useCallback(
+  //   debounce((val: string) => {
+  //     handleChangeFilter({ ...filters, search_field: val, page: 1 });
+  //   }, 500),
+  //   [filters, handleChangeFilter]
+  // );
+
+  // const handleChangeSearch = (val: string) => {
+  //   debouncedChangeSearch(val);
+  // };
 
   const handleChangeSearch = (val: string) => {
-    debouncedChangeSearch(val);
+    handleChangeFilter({ ...filters, search_field: val, page: 1 });
+    // debouncedChangeSearch(val);
   };
 
   const handleOpenAddEditModal = () => {
@@ -199,6 +206,12 @@ export default function BoostContainer() {
     }
   };
 
+  useEffect(() => {
+    const searchValue = getQueryParam('search') ? getQueryParam('search') : '';
+    handleChangeSearch(searchValue.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   return (
     <MainLayout>
       <Container>
@@ -213,7 +226,7 @@ export default function BoostContainer() {
           </Box>
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" justifyContent="space-between" mb={1}>
-          <PaginationSearch placeholder="Search..." handleChangeSearch={handleChangeSearch} />
+          {/* <PaginationSearch placeholder="Search..." handleChangeSearch={handleChangeSearch} /> */}
         </Stack>
         <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%' }}>
           <PaginationSortBy

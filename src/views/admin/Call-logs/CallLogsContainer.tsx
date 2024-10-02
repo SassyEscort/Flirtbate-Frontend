@@ -25,11 +25,13 @@ import { StyledPopover } from './CallLogs.styled';
 import CallLogsListHead from './CallLogsListHead';
 import CallLogsModel from './CallLogsModel';
 import { callLogDataResponse, callLogsDetailsService } from 'services/adminServices/call-list/callListDetailsService';
-import { debounce } from 'lodash';
+// import { debounce } from 'lodash';
 import { CALL_LOG_ACTION } from 'constants/payoutsConstants';
 import Link from 'next/link';
 import { formatFullDate } from 'utils/dateAndTime';
 import ReportFilters from 'components/Admin/ReportFilters/ReportFilters';
+import { useSearchParams } from 'next/navigation';
+import { getQueryParam } from 'utils/genericFunction';
 
 export type PaginationType = {
   page: number;
@@ -52,6 +54,8 @@ export default function CallLogsContainer() {
   const [creditModalOpen, setCreditModalOpen] = useState(false);
   const [token, setToken] = useState<TokenIdType>({ id: 0, token: '' });
   const [totalRecords, setTotalRecords] = useState(0);
+
+  const searchParams = useSearchParams();
 
   const currentMoment = moment();
   const oneMonthAgoMoment = moment().subtract(1, 'day');
@@ -159,20 +163,31 @@ export default function CallLogsContainer() {
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedChangeSearch = useCallback(
-    debounce((val: string) => {
-      handleChangeFilter({ ...filters, search_field: val, page: 1 });
-    }, 500),
-    [filters, handleChangeFilter]
-  );
+  // const debouncedChangeSearch = useCallback(
+  //   debounce((val: string) => {
+  //     handleChangeFilter({ ...filters, search_field: val, page: 1 });
+  //   }, 500),
+  //   [filters, handleChangeFilter]
+  // );
+
+  // const handleChangeSearch = (val: string) => {
+  //   debouncedChangeSearch(val);
+  // };
 
   const handleChangeSearch = (val: string) => {
-    debouncedChangeSearch(val);
+    handleChangeFilter({ ...filters, search_field: val, page: 1 });
+    // debouncedChangeSearch(val);
   };
 
   const handleFilterDurationChange = (duration: string, fromDate: string, toDate: string) => {
     handleChangeFilter({ ...filters, duration, fromDate, toDate, page: 1 });
   };
+
+  useEffect(() => {
+    const searchValue = getQueryParam('search') ? getQueryParam('search') : '';
+    handleChangeSearch(searchValue.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   return (
     <MainLayout>
@@ -188,7 +203,7 @@ export default function CallLogsContainer() {
             fromDate={filters.fromDate}
             toDate={filters.toDate}
             onFilterDurationChange={handleFilterDurationChange}
-            handleChangeSearch={handleChangeSearch}
+            // handleChangeSearch={handleChangeSearch}
           />
         </Stack>
         <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%' }}>

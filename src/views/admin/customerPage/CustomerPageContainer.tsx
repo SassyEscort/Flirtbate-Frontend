@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import debounce from 'lodash/debounce';
+// import debounce from 'lodash/debounce';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
@@ -34,7 +34,7 @@ import {
   StackFirstBoxContainer,
   UserDescriptionText
 } from './CustomerContainer.styled';
-import PaginationSearch from 'components/common/CustomPaginations/PaginationSearch';
+// import PaginationSearch from 'components/common/CustomPaginations/PaginationSearch';
 import { CustomerDetailsPage } from 'services/adminModel/types';
 import CustorModel from './CustomerModel';
 import { Divider } from '@mui/material';
@@ -43,6 +43,8 @@ import { StyledSelectInputLabel } from 'components/UIComponents/StyleSelect';
 import Select from '@mui/material/Select';
 import Grid from '@mui/material/Grid';
 import UINewTypography from 'components/UIComponents/UINewTypography';
+import { useSearchParams } from 'next/navigation';
+import { getQueryParam } from 'utils/genericFunction';
 
 export type WorkersPaginationType = {
   page: number;
@@ -87,6 +89,8 @@ export default function CustomerPageContainer() {
   const [totalRecords, setTotalRecords] = useState(0);
   const [creditModalOpen, setCreditModalOpen] = useState(false);
   const [selectedPayoutData, setSelectedPayoutData] = useState<CustomerDetailsPage | null>(null);
+
+  const searchParams = useSearchParams();
 
   const currentMoment = moment();
   const oneMonthAgoMoment = moment().subtract(1, 'month');
@@ -174,15 +178,20 @@ export default function CustomerPageContainer() {
   // );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedChangeSearch = useCallback(
-    debounce((val: string) => {
-      handleChangeFilter({ ...filters, search_field: val, page: 1 });
-    }, 500),
-    [filters, handleChangeFilter]
-  );
+  // const debouncedChangeSearch = useCallback(
+  //   debounce((val: string) => {
+  //     handleChangeFilter({ ...filters, search_field: val, page: 1 });
+  //   }, 500),
+  //   [filters, handleChangeFilter]
+  // );
+
+  // const handleChangeSearch = (val: string) => {
+  //   debouncedChangeSearch(val);
+  // };
 
   const handleChangeSearch = (val: string) => {
-    debouncedChangeSearch(val);
+    handleChangeFilter({ ...filters, search_field: val, page: 1 });
+    // debouncedChangeSearch(val);
   };
 
   const handleCloseMenu = () => {
@@ -209,6 +218,12 @@ export default function CustomerPageContainer() {
     [filters, handleChangeFilter]
   );
 
+  useEffect(() => {
+    const searchValue = getQueryParam('search') ? getQueryParam('search') : '';
+    handleChangeSearch(searchValue.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   return (
     <>
       <MainLayout>
@@ -220,7 +235,7 @@ export default function CustomerPageContainer() {
               </Typography>
             </StackBoxContainer>
             <StackFirstBoxContainer>
-              <PaginationSearch placeholder="Search" handleChangeSearch={handleChangeSearch} />
+              {/* <PaginationSearch placeholder="Search" handleChangeSearch={handleChangeSearch} /> */}
             </StackFirstBoxContainer>
 
             <FilterBoxContainer>

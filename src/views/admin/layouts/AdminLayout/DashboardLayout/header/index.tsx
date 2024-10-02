@@ -17,6 +17,9 @@ import { TokenIdType } from 'views/protectedModelViews/verification';
 import { NotificationFiltersDashboard } from 'views/protectedDashboardViews/dashboardNavItem/HeaderAuthComponent';
 import { NotificationBadge } from './AccountPopover.styled';
 import NotificationModal from './NotificationModal';
+import PaginationSearch from 'components/common/CustomPaginations/PaginationSearch';
+import { debounce } from 'lodash';
+import { useRouter } from 'next/navigation';
 
 const NAV_WIDTH = 280;
 const HEADER_MOBILE = 64;
@@ -48,6 +51,7 @@ interface HeaderProps {
 }
 
 export default function Header({ onOpenNav }: HeaderProps) {
+  const router = useRouter();
   const [filters, setFilters] = useState<NotificationFiltersDashboard>({
     page: 1,
     pageSize: 10,
@@ -107,6 +111,20 @@ export default function Header({ onOpenNav }: HeaderProps) {
     handleCallback();
   }, [handleCallback]);
 
+  const debouncedChangeSearch = debounce((val: string) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('search', val);
+    if (val === '') {
+      searchParams.delete('search');
+    }
+
+    router.push(`?${searchParams.toString()}`);
+  }, 500);
+
+  const handleChangeSearch = (val: string) => {
+    debouncedChangeSearch(val);
+  };
+
   return (
     <>
       <StyledRoot>
@@ -121,7 +139,11 @@ export default function Header({ onOpenNav }: HeaderProps) {
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, width: '50%' }}>
+              <PaginationSearch placeholder="Search" handleChangeSearch={handleChangeSearch} />
+            </Box>
+          </Box>
           <Stack
             direction="row"
             alignItems="center"

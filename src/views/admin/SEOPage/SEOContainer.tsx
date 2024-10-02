@@ -20,19 +20,19 @@ import { PaginationSortByOption } from 'components/common/CustomPaginations/type
 import PaginationSortBy from 'components/common/CustomPaginations/PaginationSortBy';
 import { PAGE_SIZE } from 'constants/pageConstants';
 import TablePager from 'components/common/CustomPaginations/TablePager';
-import { debounce } from 'lodash';
 import DeleteModal from 'components/UIComponents/DeleteModal';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { toast } from 'react-toastify';
 import { ErrorMessage } from 'constants/common.constants';
-import PaginationSearch from 'components/common/CustomPaginations/PaginationSearch';
 import SEOModel from './SEOModel';
 import SEOListHead from './SEOListHead';
 import { StyledPopover } from './SEO.styled';
 import { AdminSEOProfileData, adminSEOServices } from 'services/adminSEOProfilePlan/adminSEOProfilePlan.services';
 import AddEditSEOModal from './AddEditSEOModal';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useSearchParams } from 'next/navigation';
+import { getQueryParam } from 'utils/genericFunction';
 
 export type PaginationType = {
   page: number;
@@ -56,6 +56,8 @@ export default function SEOContainer() {
   const [openAddEditModal, setOpenAddEditModal] = useState(false);
   const [selectedSEO, setSelectedSEO] = useState<AdminSEOProfileData | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState<PaginationType>({
     page: 1,
@@ -157,16 +159,21 @@ export default function SEOContainer() {
     [filters, handleChangeFilter]
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedChangeSearch = useCallback(
-    debounce((val: string) => {
-      handleChangeFilter({ ...filters, search_field: val, page: 1 });
-    }, 500),
-    [filters, handleChangeFilter]
-  );
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // const debouncedChangeSearch = useCallback(
+  //   debounce((val: string) => {
+  //     handleChangeFilter({ ...filters, search_field: val, page: 1 });
+  //   }, 500),
+  //   [filters, handleChangeFilter]
+  // );
+
+  // const handleChangeSearch = (val: string) => {
+  //   debouncedChangeSearch(val);
+  // };
 
   const handleChangeSearch = (val: string) => {
-    debouncedChangeSearch(val);
+    handleChangeFilter({ ...filters, search_field: val, page: 1 });
+    // debouncedChangeSearch(val);
   };
 
   const handleOpenAddEditModal = () => {
@@ -208,6 +215,12 @@ export default function SEOContainer() {
     }
   };
 
+  useEffect(() => {
+    const searchValue = getQueryParam('search') ? getQueryParam('search') : '';
+    handleChangeSearch(searchValue.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   return (
     <MainLayout>
       <Container>
@@ -217,7 +230,7 @@ export default function SEOContainer() {
           </Typography>
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" justifyContent="space-between" mb={1}>
-          <PaginationSearch placeholder="Search..." handleChangeSearch={handleChangeSearch} />
+          {/* <PaginationSearch placeholder="Search..." handleChangeSearch={handleChangeSearch} /> */}
         </Stack>
         <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%' }}>
           <PaginationSortBy

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import debounce from 'lodash/debounce'; // Import lodash debounce
+
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Stack from '@mui/material/Stack';
@@ -39,6 +39,8 @@ import UINewTypography from 'components/UIComponents/UINewTypography';
 import { Divider } from '@mui/material';
 import ModelDelete from './ModelDelete';
 import ApproveRejectPendingModel from './ApproveRejectPendingModel';
+import { useSearchParams } from 'next/navigation';
+import { getQueryParam } from 'utils/genericFunction';
 
 export type WorkersPaginationType = {
   page: number;
@@ -100,6 +102,8 @@ export default function ModelPageContainer({ handlePayoutStep }: { handlePayoutS
   const [totalRecords, setTotalRecords] = useState(0);
   const [deleteModelOpen, setDeleteModelOpen] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
+
+  const searchParams = useSearchParams();
 
   const currentMoment = moment();
   const oneMonthAgoMoment = moment().subtract(1, 'day');
@@ -222,15 +226,17 @@ export default function ModelPageContainer({ handlePayoutStep }: { handlePayoutS
   // );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedChangeSearch = useCallback(
-    debounce((val: string) => {
-      handleChangeFilter({ ...filters, filter_Text: val, page: 1 });
-    }, 500),
-    [filters, handleChangeFilter]
-  );
+
+  // const debouncedChangeSearch = useCallback(
+  //   debounce((val: string) => {
+  //     handleChangeFilter({ ...filters, filter_Text: val, page: 1 });
+  //   }, 500),
+  //   [filters, handleChangeFilter]
+  // );
 
   const handleChangeSearch = (val: string) => {
-    debouncedChangeSearch(val);
+    handleChangeFilter({ ...filters, filter_Text: val, page: 1 });
+    // debouncedChangeSearch(val);
   };
 
   const handleChangeStatus = useCallback(
@@ -303,6 +309,12 @@ export default function ModelPageContainer({ handlePayoutStep }: { handlePayoutS
     setModelOpen(false);
   };
 
+  useEffect(() => {
+    const searchValue = getQueryParam('search') ? getQueryParam('search') : '';
+    handleChangeSearch(searchValue.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   return (
     <>
       <MainLayout>
@@ -319,7 +331,7 @@ export default function ModelPageContainer({ handlePayoutStep }: { handlePayoutS
                 fromDate={filters.fromDate}
                 toDate={filters.toDate}
                 onFilterDurationChange={handleFilterDurationChange}
-                handleChangeSearch={handleChangeSearch}
+                // handleChangeSearch={handleChangeSearch}
               />
             </Stack>
             <FilterBox>

@@ -25,12 +25,12 @@ import { TokenIdType } from 'views/protectedModelViews/verification';
 import { PaginationSortByOption } from 'components/common/CustomPaginations/type';
 import PaginationSortBy from 'components/common/CustomPaginations/PaginationSortBy';
 import { PAGE_SIZE } from 'constants/pageConstants';
-import PaginationSearch from 'components/common/CustomPaginations/PaginationSearch';
 import TablePager from 'components/common/CustomPaginations/TablePager';
 import { StyledPopover } from './Payout.styled';
 import { PAYOUT_ACTION } from 'constants/payoutsConstants';
 import RejectModal from './RejectModal';
-import { debounce } from 'lodash';
+import { useSearchParams } from 'next/navigation';
+import { getQueryParam } from 'utils/genericFunction';
 
 export type PaginationType = {
   page: number;
@@ -50,6 +50,8 @@ export default function PayoutPageContainer() {
   const [creditModalOpen, setCreditModalOpen] = useState(false);
   const [token, setToken] = useState<TokenIdType>({ id: 0, token: '' });
   const [totalRecords, setTotalRecords] = useState(0);
+
+  const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState<PaginationType>({
     page: 1,
@@ -142,15 +144,20 @@ export default function PayoutPageContainer() {
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedChangeSearch = useCallback(
-    debounce((val: string) => {
-      handleChangeFilter({ ...filters, search_field: val, page: 1 });
-    }, 500),
-    [filters, handleChangeFilter]
-  );
+  // const debouncedChangeSearch = useCallback(
+  //   debounce((val: string) => {
+  //     handleChangeFilter({ ...filters, search_field: val, page: 1 });
+  //   }, 500),
+  //   [filters, handleChangeFilter]
+  // );
+
+  // const handleChangeSearch = (val: string) => {
+  //   debouncedChangeSearch(val);
+  // };
 
   const handleChangeSearch = (val: string) => {
-    debouncedChangeSearch(val);
+    handleChangeFilter({ ...filters, search_field: val, page: 1 });
+    // debouncedChangeSearch(val);
   };
 
   const handelChangeStatus = async (value: boolean) => {
@@ -174,6 +181,12 @@ export default function PayoutPageContainer() {
     setOpenReject(false);
   };
 
+  useEffect(() => {
+    const searchValue = getQueryParam('search') ? getQueryParam('search') : '';
+    handleChangeSearch(searchValue.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   return (
     <MainLayout>
       <Container>
@@ -183,7 +196,7 @@ export default function PayoutPageContainer() {
           </Typography>
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" justifyContent="space-between" mb={1}>
-          <PaginationSearch placeholder="Search..." handleChangeSearch={handleChangeSearch} />
+          {/* <PaginationSearch placeholder="Search..." handleChangeSearch={handleChangeSearch} /> */}
         </Stack>
         <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%' }}>
           <PaginationSortBy
