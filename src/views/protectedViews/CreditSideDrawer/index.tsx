@@ -13,6 +13,8 @@ import {
   CreditsHeader,
   CurrentBalanceBox,
   CurrentBalanceTypography,
+  FirstTimeChip,
+  FirstTimeTypography,
   MainImageBox,
   TitleSerachBox
 } from './CreditSideDrawer.styled';
@@ -144,15 +146,15 @@ const CreditSideDrawer = ({
                     <Box component={'img'} src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
                     <Box>
                       <UINewTypography variant="buttonLargeMenu" color={'primary.200'}>
-                        20+10 <FormattedMessage id="Credits" />
+                        <FormattedMessage id="ClaimFreeCredits" />
                       </UINewTypography>
                     </Box>
                   </CreditInfoBox>
                   <CreditPriceBox>
                     <Box component={'img'} src="/images/home/gitftsecond.png" alt="coin.png" width={24} height={29} />
-                    <CreditTypography color={'primary.200'}>
+                    {/* <CreditTypography color={'primary.200'}>
                       <FormattedMessage id="FREE" />
-                    </CreditTypography>
+                    </CreditTypography> */}
                   </CreditPriceBox>
                 </CreditListContainer>
               )}
@@ -190,16 +192,37 @@ const CreditSideDrawer = ({
                         </UINewTypography>
                       </CreditPopularChip>
                     )}
+
+                    {creditsListing?.tag === 'First Time Only' && (
+                      <FirstTimeChip>
+                        <Box position={'relative'} sx={{ width: '100%' }}>
+                          <Box
+                            component={'img'}
+                            src="/images/credits/firstTime.png"
+                            alt="coin.png"
+                            sx={{ boxShadow: '0px 8px 32px 0px #FFBE6666' }}
+                          />
+                          <FirstTimeTypography variant="bodySmallBold" position={'absolute'}>
+                            first time free
+                          </FirstTimeTypography>
+                        </Box>
+                      </FirstTimeChip>
+                    )}
                     <CreditInfoBox>
                       <Box component={'img'} src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
                       <Box>
-                        <UINewTypography variant="buttonLargeMenu" color={'white.main'}>
+                        <UINewTypography variant="SubtitleSmallMedium" color={'white.main'}>
                           {creditsListing?.credits} <FormattedMessage id="Credits" />
                         </UINewTypography>
                       </Box>
                     </CreditInfoBox>
                     <CreditPriceBox>
-                      <CreditTypography color={'white.main'}>${creditsListing?.amount}</CreditTypography>
+                      <Box sx={{ display: 'flex', gap: 1.25 }}>
+                        <UINewTypography color={'text.primary'} variant="subtitle" sx={{ textDecorationLine: 'line-through' }}>
+                          ${creditsListing?.amount}
+                        </UINewTypography>
+                        <CreditTypography color={'white.main'}>${creditsListing?.amount}</CreditTypography>
+                      </Box>
                     </CreditPriceBox>
                   </CreditListContainer>
                 ))}

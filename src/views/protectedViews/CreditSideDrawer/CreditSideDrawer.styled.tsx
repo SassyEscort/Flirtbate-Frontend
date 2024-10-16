@@ -19,6 +19,20 @@ export const CreditPopularChip = styled(Box)(({ theme }) => ({
   padding: '6px 12px',
   borderRadius: '4px'
 }));
+export const FirstTimeChip = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: '-25%'
+}));
+
+export const FirstTimeTypography = styled(UINewTypography)(({ theme }) => ({
+  fontSize: '9px',
+  fontWeight: '600',
+  lineHeight: '12.29px',
+  color: '#000000',
+  letterSpacing: '0.03em',
+  left: '25%',
+  top: '13%'
+}));
 
 export const CreditSideMainDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
@@ -41,7 +55,7 @@ export const CreditsHeader = styled(Box)(({ theme }) => ({
   backgroundColor: '#1E0815',
   display: 'flex',
   justifyContent: 'space-between',
-  paddingTop: theme.spacing(3),
+  paddingTop: theme.spacing(1),
   alignItems: 'center',
   gap: theme.spacing(1.5),
   width: '100%',
