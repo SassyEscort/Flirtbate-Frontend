@@ -15,7 +15,10 @@ const ModelDocument = ({ modelData }: { modelData: ModelDetailsRes }) => {
         <ModelDocumentContentBox>
           {modelData?.data?.documents?.map((item, index) => (
             <Fragment key={index}>
-              <DocumentDetailsBox label={item?.id ? String(item.id) : ''} value={item?.document_type ? item?.document_type : ''} />
+              <DocumentDetailsBox
+                label={item?.document_number ? String(item.document_number) : ''}
+                value={item?.document_type ? item?.document_type : ''}
+              />
               {item?.file_type === 'Non_Image' ? (
                 <StyledModelDocumentImgBox src={defaultPdfImage} alt="pdf-icon" onClick={() => handleOpenPdf(item?.link)} />
               ) : (

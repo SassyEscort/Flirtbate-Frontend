@@ -1,5 +1,7 @@
-import { Box, Drawer, styled } from '@mui/material';
-import { Close } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import { styled } from '@mui/material/styles';
 import UINewTypography from 'components/UIComponents/UINewTypography';
 
 export const CreditLoaderBox = styled(Box)(() => ({
@@ -9,7 +11,7 @@ export const CreditLoaderBox = styled(Box)(() => ({
   height: '100%'
 }));
 
-export const CloseIcon = styled(Close)(({ theme }) => ({
+export const CloseImgIcon = styled(CloseIcon)(({ theme }) => ({
   color: theme.palette.text.secondary,
   height: 40,
   width: 40

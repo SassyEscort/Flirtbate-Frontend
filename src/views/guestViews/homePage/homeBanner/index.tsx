@@ -36,7 +36,7 @@ import { NewUIStyledSignUpDialog } from 'components/UIComponents/UIStyledDialog'
 import { gaEventTrigger } from 'utils/analytics';
 import { PROVIDERCUSTOM_TYPE } from 'constants/signUpConstants';
 import { useAuthContext } from '../../../../../context/AuthContext';
-import { BannerImage, BannerImageCard } from 'views/guestViews/commonComponents/WorkerCard/WorkerCard.styled';
+import { BannerImageCard } from 'views/guestViews/commonComponents/WorkerCard/WorkerCard.styled';
 import GuestForgetPasswordLink from 'views/auth/guestForgetPasswordLink';
 import GuestLogin from 'views/auth/guestLogin';
 import GuestSignup from 'views/auth/guestSignup';
@@ -208,7 +208,20 @@ const HomeTopBanner = ({ isFreeCreditAvailable }: { isFreeCreditAvailable: numbe
             </FirstBoxContainer>
             <BannerImageCard>
               <picture>
-                <BannerImage loading="eager" src="/images/home/home-banner-model1.webp" alt="home_model" />
+                <Image
+                  alt="home_model"
+                  decoding="async"
+                  width={isSm && isSmDown ? 300 : isSmDown ? 347 : 462}
+                  height={isSmDown ? 339 : 452}
+                  src="https://ik.imagekit.io/gpgv4gnda/images/1729084436818home-banner-model1_1qobIoZFu.webp"
+                  placeholder="blur"
+                  blurDataURL="/images/home/home-banner-blur.webp"
+                  style={{ borderRadius: '12px', right: 0 }}
+                  priority
+                  loading="eager"
+                  fetchPriority="high"
+                  sizes="(max-width: 600px) 300px, (max-width: 768px) 347px, 462px"
+                />
               </picture>
             </BannerImageCard>
           </BannerContainer>
@@ -217,8 +230,8 @@ const HomeTopBanner = ({ isFreeCreditAvailable }: { isFreeCreditAvailable: numbe
           )}{' '}
           {isSmDown && isFreeCreditAvailable && !isModalOpenFreeCredits && !freeSignupOpen && !openLogin && (
             <Box sx={{ position: 'relative', cursor: 'pointer' }} onClick={handleBoxClick}>
-              <GiftBoxFirst></GiftBoxFirst>
-              <GiftBoxSecond></GiftBoxSecond>
+              <GiftBoxFirst />
+              <GiftBoxSecond />
               {/* <GiftBoxThird></GiftBoxThird> */}
             </Box>
           )}

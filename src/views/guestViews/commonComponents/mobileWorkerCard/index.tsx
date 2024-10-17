@@ -5,7 +5,7 @@ import theme from 'themes/theme';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import useImageOptimize from 'hooks/useImageOptimize';
-import { countryWithFlag } from 'constants/country';
+import countryWithFlagList from 'constants/countryList.json';
 import { TokenIdType } from 'views/protectedModelViews/verification';
 import { toast } from 'react-toastify';
 import { CustomerDetailsService } from 'services/customerDetails/customerDetails.services';
@@ -46,8 +46,8 @@ const WorkerCardMobile = ({ modelDetails, token }: { modelDetails: ViewDetailsRe
     ?.map((language) => language?.language_name)
     .sort()
     .join(', ');
-  const modelFlag = countryWithFlag.filter((country) => country.name === modelDetails?.country_name).map((data) => data.flag)[0];
-  const modelAltName = countryWithFlag.filter((country) => country.name === modelDetails?.country_name).map((data) => data.name)[0];
+  const modelFlag = countryWithFlagList.filter((country) => country.name === modelDetails?.country_name).map((data) => data.flag)[0];
+  const modelAltName = countryWithFlagList.filter((country) => country.name === modelDetails?.country_name).map((data) => data.name)[0];
 
   const imageUrlRef = useRef<HTMLElement>();
 

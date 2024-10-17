@@ -182,7 +182,7 @@ const HomeImageCard = ({
           })}
         </Grid>
 
-        {totalRows && filters && totalRows > 0 && (
+        {typeof totalRows !== 'undefined' && filters && Number(totalRows) > 0 && (
           <ButtonMainBox>
             <PaginationMainBox>
               <UITheme2Pagination

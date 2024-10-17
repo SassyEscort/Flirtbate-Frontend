@@ -4,9 +4,12 @@ import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import { getLoggedInUser } from 'utils/getSessionData';
 import RedirectGuard from 'utils/route-guard/RedirectGuard';
-import HeaderGuestComponent from 'views/guestViews/guestLayout/Header';
 import Header from 'views/protectedViews/protectedLayout/Header';
 const Footer = dynamic(() => import('views/guestViews/guestLayout/footer').then((module) => module.default));
+
+const HeaderGuestComponent = dynamic(() => import('views/guestViews/guestLayout/Header'), {
+  ssr: false
+});
 
 export interface User {
   name?: string | null;

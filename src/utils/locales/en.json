@@ -876,5 +876,6 @@
   "ClaimFreeCredits": "Claim Free Credits",
   "VerifyNow": "Verify now!",
   "OTPSendOnYourEmail": "OTP send on your email",
-  "Addcredits": "Add credits"
+  "Addcredits": "Add credits",
+  "DuplicateDetected": "Duplicate detected: The document you uploaded already exists."
 }

@@ -22,6 +22,14 @@ export interface DropdownLanguageAPIRes extends GenericRes {
   data: LanagueRes;
 }
 
+export type Document_type = {
+  document_number: string;
+};
+
+export interface DocumentVerificationRes extends GenericRes {
+  is_document_exists: number;
+}
+
 export class ModelVerificationService {
   static verificationStepOne = async (values: VerificationStep1Type, token: string) => {
     try {
@@ -72,6 +80,19 @@ export class ModelVerificationService {
     } catch (err: any) {
       const error: AxiosError = err;
       return error.response?.data as DropdownAPIRes;
+    }
+  };
+
+  static modelDocumentVerification = async (values: Document_type, token: string): Promise<DocumentVerificationRes> => {
+    try {
+      const res = await axios.post(process.env.NEXT_PUBLIC_API_BASE_URL + `/v1/model/verify-document`, values, {
+        headers: { 'Content-Type': 'application/json', Authorization: token }
+      });
+
+      return res.data.data;
+    } catch (err: any) {
+      const error: AxiosError = err;
+      return error.response?.data as DocumentVerificationRes;
     }
   };
 }

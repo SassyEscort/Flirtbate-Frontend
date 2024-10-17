@@ -874,5 +874,6 @@
   "Claimyourfreecredits": "¡Reclama tus créditos GRATIS!",
   "VerifyNow": "¡Verifique ahora!",
   "OTPSendOnYourEmail": "Envío OTP en su correo electrónico",
-  "Addcredits": "Agregar créditos"
+  "Addcredits": "Agregar créditos",
+  "DuplicateDetected": "Duplicado detectado: El documento que subiste ya existe."
 }

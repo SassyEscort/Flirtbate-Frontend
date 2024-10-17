@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import UINewTypography from 'components/UIComponents/UINewTypography';
+import Image from 'next/image';
 
 export const MainWorkerCard = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -129,7 +130,7 @@ export const SubContainertWorkerCard = styled(Box)(({ theme }) => ({
   }
 }));
 
-export const FirstSubContainerImgWorkerCard = styled('img')(() => ({
+export const FirstSubContainerImgWorkerCard = styled(Image)(() => ({
   display: 'flex',
   width: '100%',
   maxWidth: '16px',
@@ -168,7 +169,7 @@ export const SecondSubContainerWorkerCard = styled(Box)(({ theme }) => ({
   }
 }));
 
-export const SecondSubContainerImgWorkerCard = styled('img')(() => ({
+export const SecondSubContainerImgWorkerCard = styled(Image)(() => ({
   display: 'flex',
   width: '100%',
   height: '100%',

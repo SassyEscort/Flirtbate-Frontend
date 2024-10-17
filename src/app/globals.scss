@@ -1,15 +1,18 @@
+/* General Reset */
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
+/* Optimize layout and avoid unnecessary reflows */
 html,
 body {
   max-width: 100vw;
   padding-right: 0 !important;
   overflow-x: hidden;
   min-height: 100vh;
+  scroll-behavior: smooth; /* Smooth scrolling */
 }
 
 a {
@@ -17,21 +20,42 @@ a {
   text-decoration: none;
 }
 
+/* Autocomplete popper */
 .Mui-Autocomplete-popper {
   z-index: 1000;
 }
 
-.react-tel-input .form-control.MobileVerificationInput, 
-.react-tel-input .form-control.EnterCurrentEmailPhone {
+/* Common Input Styles */
+.react-tel-input .form-control {
   width: 100% !important;
-  height: 50px !important;
   border-radius: 8px !important;
-  border: 2px solid !important;
-  border-color: #232027 !important;
+  border: 2px solid #232027 !important;
   background-color: #100b19 !important;
   color: #86838a !important;
+  height: 50px !important;
+
+  &:hover, &:focus {
+    border-color: #86838a !important;
+    box-shadow: none !important;
+  }
 }
 
+/* Special Labels */
+.react-tel-input:focus-within .special-label {
+  color: #232027;
+}
+
+/* Phone Input */
+.react-tel-input .form-control.affiliatePhoneInput {
+  height: 50px !important;
+}
+
+/* Error State */
+.phone-error .react-tel-input .form-control {
+  border-color: red !important;
+}
+
+/* Country list */
 .react-tel-input .country-list {
   background-color: #100b19 !important;
 }
@@ -40,45 +64,7 @@ a {
   background-color: #232027 !important;
 }
 
-.form-control.react-tel-input-2 {
-  width: 100% !important;
-  height: 56px !important;
-  border-radius: 4px !important;
-  border: 2px solid !important;
-}
-
-.react-tel-input .form-control:hover,
-.react-tel-input .form-control:focus {
-  border-color: #86838a !important;
-}
-
-.react-tel-input .form-control:focus {
-  box-shadow: none !important;
-}
-
-.react-tel-input:focus-within .special-label {
-  color: #232027;
-}
-
-.phone-error {
-  .react-tel-input {
-
-    .form-control,
-    .form-control:focus,
-    .form-control:hover {
-      border-color: red !important;
-    }
-  }
-}
-
-.react-tel-input .special-label {
-  font-size: 12px;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.6);
-  margin-left: -11px;
-  margin-top: -5px;
-}
-
+/* Ellipsis for long text */
 .ellipsis-2 {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -87,18 +73,19 @@ a {
   -webkit-box-orient: vertical;
 }
 
+/* Disable number input spinner */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
+/* Firefox: Remove spinner for number input */
 input[type='number'] {
   -moz-appearance: textfield;
 }
 
-/* toastify style */
+/* Toastify Styles */
 .version2 {
   width: auto;
 
@@ -108,67 +95,64 @@ input[type='number'] {
     border-radius: 8px;
     gap: 24px;
     align-items: center;
-  }
 
-  .Toastify__toast--success {
-    background-color: #15250a;
-    border: 1px solid #79e028;
-    color: #79e028;
+    &--success {
+      background-color: #15250a;
+      border: 1px solid #79e028;
+      color: #79e028;
 
-    .Toastify__toast-icon {
-      background-image: url('/images/NewThemeImages/icons/check-fill.svg');
-      background-size: 24px 24px;
+      .Toastify__toast-icon {
+        background-image: url('/images/NewThemeImages/icons/check-fill.svg');
+        background-size: 24px 24px;
 
-      svg {
-        display: none;
+        svg {
+          display: none;
+        }
       }
     }
-  }
 
-  .Toastify__toast--error {
-    background-color: #2f0909;
-    border: 1px solid #e92f2f;
-    color: #e92f2f;
+    &--error {
+      background-color: #2f0909;
+      border: 1px solid #e92f2f;
+      color: #e92f2f;
 
-    .Toastify__toast-icon svg {
-      fill: #e92f2f;
+      .Toastify__toast-icon svg {
+        fill: #e92f2f;
+      }
     }
-  }
 
-  .Toastify__toast-body {
-    padding: 0;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 120%;
+    &-body {
+      padding: 0;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 120%;
 
-    .Toastify__toast-icon {
-      width: 24px;
-      height: 24px;
-      margin-inline-end: 8px;
+      .Toastify__toast-icon {
+        width: 24px;
+        height: 24px;
+        margin-inline-end: 8px;
+      }
     }
-  }
 
-  .Toastify__close-button {
-    align-self: center;
-    color: #e9e8eb;
-    opacity: 1;
+    .Toastify__close-button {
+      align-self: center;
+      color: #e9e8eb;
+      opacity: 1;
 
-    svg {
-      width: 22px;
-      height: 22px;
+      svg {
+        width: 22px;
+        height: 22px;
+      }
     }
-  }
 
-  .Toastify__progress-bar {
-    display: contents;
+    .Toastify__progress-bar {
+      display: contents;
+    }
   }
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -182,36 +166,28 @@ html {
   background: #d9d9d9;
   border-radius: 10px;
   cursor: default;
+
+  &:hover {
+    background: #aaaaaa;
+  }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #aaaaaa;
-}
-
+/* Logo Styles */
 .Stay_logo {
   position: absolute;
   bottom: -70px;
   right: 115px;
-}
 
-@media (max-width: 0px) {
-  .Stay_logo {
+  @media (max-width: 0px) {
     right: calc(50% - 76px);
   }
-}
 
-@media (max-width: 600px) {
-  .Stay_logo {
+  @media (max-width: 600px) {
     right: 30px;
   }
 }
 
-.react-tel-input .form-control.affiliatePhoneInput {
-  width: 100% !important;
-  height: 50px !important;
-  border-radius: 8px !important;
-}
-
+/* Swiper Adjustments */
 .swiper-wrapper .swiper-slide-Worker {
   display: flex;
   flex-direction: column;
