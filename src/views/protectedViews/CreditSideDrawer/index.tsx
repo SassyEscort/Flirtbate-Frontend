@@ -168,76 +168,76 @@ const CreditSideDrawer = ({
 
               {/* MOST POPULAR CRDITS  1*/}
               {creditsListing &&
-                creditsListing?.map((item, index) => {
-                  return (
-                    <CreditListContainer
-                      sx={{
-                        background:
-                          item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR
-                            ? 'linear-gradient(90deg, #FF68C0 0%, #9F1666 100%)'
-                            : item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE
-                              ? 'linear-gradient(90deg, #B88A4A 0%, #E0AA3E 31.5%, #E0AA3E 61.5%, #F9F295 100%)'
-                              : '',
-                        position: 'relative',
-                        border: item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR || item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE ? 'none' : ''
-                      }}
-                      onClick={() => handleCreditClick(item)}
-                      key={index}
-                    >
-                      {(item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR || item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE) && (
-                        <CreditPopularChip>
+                creditsListing?.map((item, index) => (
+                  <CreditListContainer
+                    sx={{
+                      background:
+                        item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR
+                          ? 'linear-gradient(90deg, #FF68C0 0%, #9F1666 100%)'
+                          : item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE
+                            ? 'linear-gradient(90deg, #B88A4A 0%, #E0AA3E 31.5%, #E0AA3E 61.5%, #F9F295 100%)'
+                            : '',
+                      position: 'relative',
+                      border: item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR || item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE ? 'none' : ''
+                    }}
+                    onClick={() => handleCreditClick(item)}
+                    key={index}
+                  >
+                    {(item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR || item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE) && (
+                      <CreditPopularChip>
+                        {item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR ? (
+                          <Image loading="lazy" src="/images/credits/StarPink.svg" alt="start-icon" width={16} height={16} />
+                        ) : (
+                          <Image loading="lazy" src="/images/credits/dollar.svg" alt="doller-icon" width={9} height={18} />
+                        )}
+                        <UINewTypography variant="bodySmallBold" color="primary.400">
                           {item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR ? (
-                            <Image loading="lazy" src="/images/credits/StarPink.svg" alt="start-icon" width={16} height={16} />
+                            <FormattedMessage id="MostPopular" />
                           ) : (
-                            <Image loading="lazy" src="/images/credits/dollar.svg" alt="doller-icon" width={9} height={18} />
+                            <FormattedMessage id="BestValue" />
                           )}
-                          <UINewTypography variant="bodySmallBold" color="primary.400">
-                            {item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR ? (
-                              <FormattedMessage id="MostPopular" />
-                            ) : (
-                              <FormattedMessage id="BestValue" />
-                            )}
-                          </UINewTypography>
-                        </CreditPopularChip>
-                      )}
+                        </UINewTypography>
+                      </CreditPopularChip>
+                    )}
 
-                      {item?.tag === CUSTOM_PLAN_TAG.FIRST_TIME_ONLY && (
-                        <FirstTimeChip>
-                          <FirstTimeImageBox>
-                            <Image
-                              loading="lazy"
-                              src="/images/credits/firstTime.png"
-                              alt="firstTimeIcon"
-                              width={127}
-                              height={24}
-                              style={{ boxShadow: '0px 8px 32px 0px #FFBE6666' }}
-                            />
-                            <FirstTimeTypography variant="bodySmallBold" position="absolute">
-                              first time free
-                            </FirstTimeTypography>
-                          </FirstTimeImageBox>
-                        </FirstTimeChip>
-                      )}
-                      <CreditInfoBox>
-                        <Image loading="lazy" src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
-                        <Box>
-                          <UINewTypography variant="SubtitleSmallMedium" color="white.main">
-                            {item?.credits} {(item?.tag === CUSTOM_PLAN_TAG.FIRST_TIME_ONLY && '+ 10') || ''}{' '}
-                            <FormattedMessage id="Credits" />
-                          </UINewTypography>
-                        </Box>
-                      </CreditInfoBox>
-                      <CreditPriceBox>
-                        <CreditAmountBox>
+                    {item?.tag === CUSTOM_PLAN_TAG.FIRST_TIME_ONLY && (
+                      <FirstTimeChip>
+                        <FirstTimeImageBox>
+                          <Image
+                            loading="lazy"
+                            src="/images/credits/firstTime.png"
+                            alt="firstTimeIcon"
+                            width={127}
+                            height={24}
+                            style={{ boxShadow: '0px 8px 32px 0px #FFBE6666' }}
+                          />
+                          <FirstTimeTypography variant="bodySmallBold" position="absolute">
+                            first time free
+                          </FirstTimeTypography>
+                        </FirstTimeImageBox>
+                      </FirstTimeChip>
+                    )}
+                    <CreditInfoBox>
+                      <Image loading="lazy" src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
+                      <Box>
+                        <UINewTypography variant="SubtitleSmallMedium" color="white.main">
+                          {item?.credits} {(item?.tag === CUSTOM_PLAN_TAG.FIRST_TIME_ONLY && '+ 10') || ''}{' '}
+                          <FormattedMessage id="Credits" />
+                        </UINewTypography>
+                      </Box>
+                    </CreditInfoBox>
+                    <CreditPriceBox>
+                      <CreditAmountBox>
+                        {item?.discount > 0 && (
                           <UINewTypography color="text.primary" variant="subtitle" sx={{ textDecorationLine: 'line-through' }}>
-                            ${item?.amount}
+                            ${item?.discount}
                           </UINewTypography>
-                          <CreditTypography color="white.main">${item?.amount}</CreditTypography>
-                        </CreditAmountBox>
-                      </CreditPriceBox>
-                    </CreditListContainer>
-                  );
-                })}
+                        )}
+                        <CreditTypography color="white.main">${item?.amount}</CreditTypography>
+                      </CreditAmountBox>
+                    </CreditPriceBox>
+                  </CreditListContainer>
+                ))}
 
               {/* LIST END */}
             </CreditListMainBox>
