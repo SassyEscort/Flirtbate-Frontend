@@ -158,7 +158,7 @@ const CreditSideDrawer = ({
                     </Box>
                   </CreditInfoBox>
                   <CreditPriceBox>
-                    <Image loading="lazy" src="/images/home/gitftsecond.png" alt="gift-icon" width={24} height={29} />
+                    <Image loading="lazy" src="/images/home/gitftsecond.png" alt="gift-icon" width={32} height={36} />
                     {/* <CreditTypography color={'primary.200'}>
                       <FormattedMessage id="FREE" />
                     </CreditTypography> */}
@@ -208,7 +208,7 @@ const CreditSideDrawer = ({
                             src="/images/credits/firstTime.png"
                             alt="firstTimeIcon"
                             width={127}
-                            height={24}
+                            height={17}
                             style={{ boxShadow: '0px 8px 32px 0px #FFBE6666' }}
                           />
                           <FirstTimeTypography variant="bodySmallBold" position="absolute">
