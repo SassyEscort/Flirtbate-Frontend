@@ -1,6 +1,8 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 
 import {
+  CloseIcon,
+  CreditAmountBox,
   CreditInfoBox,
   CreditListContainer,
   CreditListMainBox,
@@ -12,14 +14,15 @@ import {
   CreditsContent,
   CreditsHeader,
   CurrentBalanceBox,
+  CurrentBalanceBoxWrapper,
   CurrentBalanceTypography,
   FirstTimeChip,
+  FirstTimeImageBox,
   FirstTimeTypography,
   MainImageBox,
   TitleSerachBox
 } from './CreditSideDrawer.styled';
 import { Box, CircularProgress, IconButton } from '@mui/material';
-import { Close } from '@mui/icons-material';
 import UINewTypography from 'components/UIComponents/UINewTypography';
 import { CustomerCredit, ModelCreditRes } from 'services/customerCredit/customerCredit.service';
 import { getUserDataClient } from 'utils/getSessionData';
@@ -30,6 +33,8 @@ import { gaEventTrigger } from 'utils/analytics';
 import { CustomerDetails } from 'services/customerDetails/customerDetails.services';
 import { FormattedMessage } from 'react-intl';
 import { useAuthContext } from '../../../../context/AuthContext';
+import { CUSTOM_PLAN_TAG } from 'constants/customPlan.constant';
+import Image from 'next/image';
 
 const CreditSideDrawer = ({
   open,
@@ -118,7 +123,7 @@ const CreditSideDrawer = ({
               </UINewTypography>
             </TitleSerachBox>
             <IconButton onClick={handleClose}>
-              <Close sx={{ color: 'text.secondary', height: 40, width: 40 }} />
+              <CloseIcon />
             </IconButton>
           </CreditsHeader>
           <CreditsContent>
@@ -126,15 +131,15 @@ const CreditSideDrawer = ({
               <CurrentBalanceTypography>
                 <FormattedMessage id="CurrentBalance" /> :
               </CurrentBalanceTypography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Box component={'img'} src="/images/credits/coinwthIcon.png" alt="coin.png" width={26} height={26} />
+              <CurrentBalanceBoxWrapper>
+                <Image loading="lazy" src="/images/credits/coinwthIcon.png" alt="coin.png" width={26} height={26} />
                 <CurrentBalanceTypography>{balance?.toFixed(2)}</CurrentBalanceTypography>
-              </Box>
+              </CurrentBalanceBoxWrapper>
             </CurrentBalanceBox>
             <MainImageBox />
             <CreditListMainBox>
               {/* FREE CRDITS  */}
-              {customerDetails && !Boolean(customerDetails?.free_credits_claimed) && isFreeCreditAvailable === 1 && (
+              {customerDetails && !Boolean(customerDetails?.free_credits_claimed) && Boolean(isFreeCreditAvailable) && (
                 <CreditListContainer
                   sx={{
                     background: 'linear-gradient(90deg, #FECD3D 11.5%, #FFF1C6 52%, #FF69C1 90%)',
@@ -143,7 +148,7 @@ const CreditSideDrawer = ({
                   onClick={() => router.push('/profile')}
                 >
                   <CreditInfoBox>
-                    <Box component={'img'} src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
+                    <Image loading="lazy" src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
                     <Box>
                       <UINewTypography variant="buttonLargeMenu" color={'primary.200'}>
                         <FormattedMessage id="ClaimFreeCredits" />
@@ -151,7 +156,7 @@ const CreditSideDrawer = ({
                     </Box>
                   </CreditInfoBox>
                   <CreditPriceBox>
-                    <Box component={'img'} src="/images/home/gitftsecond.png" alt="coin.png" width={24} height={29} />
+                    <Image loading="lazy" src="/images/home/gitftsecond.png" alt="gift-icon" width={24} height={29} />
                     {/* <CreditTypography color={'primary.200'}>
                       <FormattedMessage id="FREE" />
                     </CreditTypography> */}
@@ -161,71 +166,76 @@ const CreditSideDrawer = ({
 
               {/* MOST POPULAR CRDITS  1*/}
               {creditsListing &&
-                creditsListing?.map((creditsListing, index) => (
-                  <CreditListContainer
-                    sx={{
-                      background:
-                        creditsListing?.tag === 'Most Popular'
-                          ? 'linear-gradient(90deg, #FF68C0 0%, #9F1666 100%)'
-                          : creditsListing?.tag === 'Best Value'
-                            ? 'linear-gradient(90deg, #B88A4A 0%, #E0AA3E 31.5%, #E0AA3E 61.5%, #F9F295 100%)'
-                            : '',
-                      position: 'relative',
-                      border: creditsListing?.tag === 'Most Popular' || creditsListing?.tag === 'Best Value' ? 'none' : ''
-                    }}
-                    onClick={() => handleCreditClick(creditsListing)}
-                    key={index}
-                  >
-                    {(creditsListing?.tag === 'Most Popular' || creditsListing?.tag === 'Best Value') && (
-                      <CreditPopularChip>
-                        {creditsListing?.tag === 'Most Popular' ? (
-                          <Box component={'img'} src="/images/credits/StarPink.svg" alt="coin.png" width={16} height={16} />
-                        ) : (
-                          <Box component={'img'} src="/images/credits/dollar.svg" alt="coin.png" width={9} height={18} />
-                        )}
-                        <UINewTypography variant="bodySmallBold" color={'primary.400'}>
-                          {creditsListing?.tag === 'Most Popular' ? (
-                            <FormattedMessage id="MostPopular" />
+                creditsListing?.map((item, index) => {
+                  return (
+                    <CreditListContainer
+                      sx={{
+                        background:
+                          item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR
+                            ? 'linear-gradient(90deg, #FF68C0 0%, #9F1666 100%)'
+                            : item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE
+                              ? 'linear-gradient(90deg, #B88A4A 0%, #E0AA3E 31.5%, #E0AA3E 61.5%, #F9F295 100%)'
+                              : '',
+                        position: 'relative',
+                        border: item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR || item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE ? 'none' : ''
+                      }}
+                      onClick={() => handleCreditClick(item)}
+                      key={index}
+                    >
+                      {(item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR || item?.tag === CUSTOM_PLAN_TAG.BEST_VALUE) && (
+                        <CreditPopularChip>
+                          {item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR ? (
+                            <Image loading="lazy" src="/images/credits/StarPink.svg" alt="start-icon" width={16} height={16} />
                           ) : (
-                            <FormattedMessage id="BestValue" />
+                            <Image loading="lazy" src="/images/credits/dollar.svg" alt="doller-icon" width={9} height={18} />
                           )}
-                        </UINewTypography>
-                      </CreditPopularChip>
-                    )}
+                          <UINewTypography variant="bodySmallBold" color="primary.400">
+                            {item?.tag === CUSTOM_PLAN_TAG.MOST_POPULAR ? (
+                              <FormattedMessage id="MostPopular" />
+                            ) : (
+                              <FormattedMessage id="BestValue" />
+                            )}
+                          </UINewTypography>
+                        </CreditPopularChip>
+                      )}
 
-                    {creditsListing?.tag === 'First Time Only' && (
-                      <FirstTimeChip>
-                        <Box position={'relative'} sx={{ width: '100%' }}>
-                          <Box
-                            component={'img'}
-                            src="/images/credits/firstTime.png"
-                            alt="coin.png"
-                            sx={{ boxShadow: '0px 8px 32px 0px #FFBE6666' }}
-                          />
-                          <FirstTimeTypography variant="bodySmallBold" position={'absolute'}>
-                            first time free
-                          </FirstTimeTypography>
+                      {item?.tag === CUSTOM_PLAN_TAG.FIRST_TIME_ONLY && (
+                        <FirstTimeChip>
+                          <FirstTimeImageBox>
+                            <Image
+                              loading="lazy"
+                              src="/images/credits/firstTime.png"
+                              alt="firstTimeIcon"
+                              width={127}
+                              height={24}
+                              style={{ boxShadow: '0px 8px 32px 0px #FFBE6666' }}
+                            />
+                            <FirstTimeTypography variant="bodySmallBold" position="absolute">
+                              first time free
+                            </FirstTimeTypography>
+                          </FirstTimeImageBox>
+                        </FirstTimeChip>
+                      )}
+                      <CreditInfoBox>
+                        <Image loading="lazy" src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
+                        <Box>
+                          <UINewTypography variant="SubtitleSmallMedium" color="white.main">
+                            {item?.credits} {(item?.tag === CUSTOM_PLAN_TAG.FIRST_TIME_ONLY && '+ 10') || ''}{' '}
+                            <FormattedMessage id="Credits" />
+                          </UINewTypography>
                         </Box>
-                      </FirstTimeChip>
-                    )}
-                    <CreditInfoBox>
-                      <Box component={'img'} src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
-                      <Box>
-                        <UINewTypography variant="SubtitleSmallMedium" color={'white.main'}>
-                          {creditsListing?.credits} <FormattedMessage id="Credits" />
-                        </UINewTypography>
-                      </Box>
-                    </CreditInfoBox>
-                    <CreditPriceBox>
-                      <Box sx={{ display: 'flex', gap: 1.25 }}>
-                        <UINewTypography color={'text.primary'} variant="subtitle" sx={{ textDecorationLine: 'line-through' }}>
-                          ${creditsListing?.amount}
-                        </UINewTypography>
-                        <CreditTypography color={'white.main'}>${creditsListing?.amount}</CreditTypography>
-                      </Box>
-                    </CreditPriceBox>
-                  </CreditListContainer>
-                ))}
+                      </CreditInfoBox>
+                      <CreditPriceBox>
+                        <CreditAmountBox>
+                          <UINewTypography color="text.primary" variant="subtitle" sx={{ textDecorationLine: 'line-through' }}>
+                            ${item?.amount}
+                          </UINewTypography>
+                          <CreditTypography color="white.main">${item?.amount}</CreditTypography>
+                        </CreditAmountBox>
+                      </CreditPriceBox>
+                    </CreditListContainer>
+                  );
+                })}
 
               {/* LIST END */}
             </CreditListMainBox>

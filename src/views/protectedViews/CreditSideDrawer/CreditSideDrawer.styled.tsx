@@ -1,4 +1,5 @@
 import { Box, Drawer, styled } from '@mui/material';
+import { Close } from '@mui/icons-material';
 import UINewTypography from 'components/UIComponents/UINewTypography';
 
 export const CreditLoaderBox = styled(Box)(() => ({
@@ -6,6 +7,12 @@ export const CreditLoaderBox = styled(Box)(() => ({
   justifyContent: 'center',
   alignItems: 'center',
   height: '100%'
+}));
+
+export const CloseIcon = styled(Close)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  height: 40,
+  width: 40
 }));
 
 export const CreditPopularChip = styled(Box)(({ theme }) => ({
@@ -19,12 +26,12 @@ export const CreditPopularChip = styled(Box)(({ theme }) => ({
   padding: '6px 12px',
   borderRadius: '4px'
 }));
-export const FirstTimeChip = styled(Box)(({ theme }) => ({
+export const FirstTimeChip = styled(Box)(() => ({
   position: 'absolute',
   top: '-25%'
 }));
 
-export const FirstTimeTypography = styled(UINewTypography)(({ theme }) => ({
+export const FirstTimeTypography = styled(UINewTypography)(() => ({
   fontSize: '9px',
   fontWeight: '600',
   lineHeight: '12.29px',
@@ -103,7 +110,7 @@ export const CurrentBalanceTypography = styled(UINewTypography)(({ theme }) => (
   color: theme.palette.text.secondary
 }));
 
-export const MainImageBox = styled(Box)(({ theme }) => ({
+export const MainImageBox = styled(Box)(() => ({
   width: '100%',
   position: 'absolute',
   height: '268px',
@@ -142,7 +149,7 @@ export const CreditListMainBox = styled(Box)(({ theme }) => ({
   paddingBottom: theme.spacing(2)
 }));
 
-export const CreditTypography = styled(UINewTypography)(({ theme }) => ({
+export const CreditTypography = styled(UINewTypography)(() => ({
   fontSize: '24px',
   fontWeight: '600',
   lineHeight: '28.8px'
@@ -168,4 +175,20 @@ export const CreditPriceBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(2)
+}));
+
+export const CurrentBalanceBoxWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1)
+}));
+
+export const FirstTimeImageBox = styled(Box)(() => ({
+  position: 'relative',
+  width: '100%'
+}));
+
+export const CreditAmountBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(1.25)
 }));
