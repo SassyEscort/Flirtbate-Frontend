@@ -24,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="robots" content="index, follow" />
         <link rel="preload" as="image" href="/images/home/home-banner-model1.webp" />
       </Head>

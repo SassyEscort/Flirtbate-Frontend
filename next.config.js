@@ -29,6 +29,15 @@ const nextConfig = {
         ]
       },
       {
+        source: '/favicon.ico',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+        ],
+      },
+      {
         source: '/(.*)',
         headers: [
           {
@@ -76,7 +85,16 @@ const nextConfig = {
     NEXT_APP_JWT_TIMEOUT: '86400',
     NEXTAUTH_SECRET_KEY: 'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg='
   },
-  transpilePackages: ['@mui/system', '@mui/material', '@mui/icons-material']
+  transpilePackages: ['@mui/system', '@mui/material', '@mui/icons-material'],
+  webpack(config) {
+    config.optimization.splitChunks = {
+      chunks: 'all',
+      minSize: 20000,
+      maxSize: 50000,
+    };
+    
+    return config;
+  },
 };
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
