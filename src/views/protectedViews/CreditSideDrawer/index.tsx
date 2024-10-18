@@ -1,6 +1,8 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 
 import {
+  CloseButtonContainer,
+  CreditAmountBox,
   CreditInfoBox,
   CreditListContainer,
   CreditListMainBox,
@@ -11,6 +13,7 @@ import {
   CreditTypography,
   CreditsContent,
   CreditsHeader,
+  CurrentAmountTypography,
   CurrentBalanceBox,
   CurrentBalanceTypography,
   FirstTimeChip,
@@ -19,7 +22,6 @@ import {
   TitleSerachBox
 } from './CreditSideDrawer.styled';
 import { Box, CircularProgress, IconButton } from '@mui/material';
-import { Close } from '@mui/icons-material';
 import UINewTypography from 'components/UIComponents/UINewTypography';
 import { CustomerCredit, ModelCreditRes } from 'services/customerCredit/customerCredit.service';
 import { getUserDataClient } from 'utils/getSessionData';
@@ -113,12 +115,12 @@ const CreditSideDrawer = ({
         <>
           <CreditsHeader>
             <TitleSerachBox>
-              <UINewTypography variant="h3" fontSize={30} color="text.secondary">
+              <UINewTypography variant="h3" fontSize={24} color="text.secondary">
                 <FormattedMessage id="Addcredits" />
               </UINewTypography>
             </TitleSerachBox>
             <IconButton onClick={handleClose}>
-              <Close sx={{ color: 'text.secondary', height: 40, width: 40 }} />
+              <CloseButtonContainer />
             </IconButton>
           </CreditsHeader>
           <CreditsContent>
@@ -126,10 +128,10 @@ const CreditSideDrawer = ({
               <CurrentBalanceTypography>
                 <FormattedMessage id="CurrentBalance" /> :
               </CurrentBalanceTypography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <CreditInfoBox>
                 <Box component={'img'} src="/images/credits/coinwthIcon.png" alt="coin.png" width={26} height={26} />
-                <CurrentBalanceTypography>{balance?.toFixed(2)}</CurrentBalanceTypography>
-              </Box>
+                <CurrentAmountTypography>{balance?.toFixed(2)}</CurrentAmountTypography>
+              </CreditInfoBox>
             </CurrentBalanceBox>
             <MainImageBox />
             <CreditListMainBox>
@@ -145,7 +147,7 @@ const CreditSideDrawer = ({
                   <CreditInfoBox>
                     <Box component={'img'} src="/images/credits/coinwthIcon.png" alt="coin.png" width={18} height={18} />
                     <Box>
-                      <UINewTypography variant="buttonLargeMenu" color={'primary.200'}>
+                      <UINewTypography variant="SubtitleSmallMedium" color={'primary.200'}>
                         <FormattedMessage id="ClaimFreeCredits" />
                       </UINewTypography>
                     </Box>
@@ -179,11 +181,11 @@ const CreditSideDrawer = ({
                     {(creditsListing?.tag === 'Most Popular' || creditsListing?.tag === 'Best Value') && (
                       <CreditPopularChip>
                         {creditsListing?.tag === 'Most Popular' ? (
-                          <Box component={'img'} src="/images/credits/StarPink.svg" alt="coin.png" width={16} height={16} />
+                          <Box component={'img'} src="/images/credits/StarPink.svg" alt="coin.png" width={12} height={12} />
                         ) : (
-                          <Box component={'img'} src="/images/credits/dollar.svg" alt="coin.png" width={9} height={18} />
+                          <Box component={'img'} src="/images/credits/dollar.svg" alt="coin.png" width={8} height={18} />
                         )}
-                        <UINewTypography variant="bodySmallBold" color={'primary.400'}>
+                        <UINewTypography variant="captionLargeSemiBold" color={'primary.400'}>
                           {creditsListing?.tag === 'Most Popular' ? (
                             <FormattedMessage id="MostPopular" />
                           ) : (
@@ -217,12 +219,12 @@ const CreditSideDrawer = ({
                       </Box>
                     </CreditInfoBox>
                     <CreditPriceBox>
-                      <Box sx={{ display: 'flex', gap: 1.25 }}>
-                        <UINewTypography color={'text.primary'} variant="subtitle" sx={{ textDecorationLine: 'line-through' }}>
+                      <CreditAmountBox>
+                        <UINewTypography color={'text.primary'} variant="buttonLargeMenu" sx={{ textDecorationLine: 'line-through' }}>
                           ${creditsListing?.amount}
                         </UINewTypography>
                         <CreditTypography color={'white.main'}>${creditsListing?.amount}</CreditTypography>
-                      </Box>
+                      </CreditAmountBox>
                     </CreditPriceBox>
                   </CreditListContainer>
                 ))}
